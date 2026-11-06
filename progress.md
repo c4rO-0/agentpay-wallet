@@ -1,5 +1,14 @@
 # AgentPay Wallet progress
 
+## Public documentation follow-up — 2026-11-06
+
+The owner enabled public source visibility. Anonymous remote refs were verified:
+only main `fb70187` was advertised, without tags. This verifies ref access, not
+fresh-clone/ZIP installation or disappearance of every historical GitHub object.
+README prerequisites now explain how to obtain Corepack. Current TODO separates
+completed visibility/ref checks from remaining installation, release and audit gates.
+No source behavior or live deployment changed in this follow-up.
+
 ## Public-source preparation — 2026-11-06
 
 Current source review covers code, documentation and dependency archive contents.

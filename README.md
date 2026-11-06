@@ -10,6 +10,9 @@ signing to an Agent. It is not a general-purpose cryptocurrency wallet.
 
 Use Node.js 22.22.3 or newer and pnpm 10. Run from this repository:
 
+Corepack is required by the commands below. If it is absent, install it with
+`npm install --global corepack` using your Node installation.
+
 ```bash
 corepack enable
 corepack prepare pnpm@10.0.0 --activate

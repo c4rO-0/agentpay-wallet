@@ -12,8 +12,8 @@
 - [x] Review each test suite against behavior-first principles; consolidate duplicate rules, remove out-of-scope Protocol checks and improve real IPC coverage.
 - [x] Rebuild and rerun the final combined revision independently: all 30 tests passed, with no failures or skips.
 - [x] Obtain owner approval for a single-commit history baseline and removal of old release tags.
-- [ ] Verify anonymous source/download access when public visibility is enabled; old history must not be reachable through published refs.
-- [ ] Verify anonymous checkout and downloads after public visibility is enabled.
+- [x] Owner enabled public source; anonymous refs show only main `fb70187`, with no old tags.
+- [ ] Verify a complete anonymous fresh clone and source ZIP installation.
 - [ ] Establish public CI for the independent behavioral suite; no private platform dependencies.
 
 ## Independent distribution
