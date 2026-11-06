@@ -1,0 +1,20 @@
+node_modules/
+dist/
+coverage/
+.tmp/
+.agentpay-wallet/
+*.keystore.json
+*.token
+*.sock
+*.swp
+.DS_Store
+
+# Local configuration, logs and private key material
+.env
+.env.*
+!.env.example
+*.log
+*.pem
+*.key
+*.p12
+*.pfx

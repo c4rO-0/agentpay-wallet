@@ -1,0 +1,26 @@
+{
+  "name": "agentpay-wallet",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "agentpay-wallet": "dist/src/cli.js"
+  },
+  "packageManager": "pnpm@10.0.0",
+  "engines": {
+    "node": ">=22.22.3"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/src/cli.js",
+    "test": "tsc -p tsconfig.json && node --test dist/test/*.test.js"
+  },
+  "dependencies": {
+    "@agentpay/types": "file:vendor/protocol/agentpay-types-0.14.1.tgz",
+    "ethers": "6.17.0"
+  },
+  "devDependencies": {
+    "@types/node": "22.7.5",
+    "typescript": "7.0.2"
+  }
+}
