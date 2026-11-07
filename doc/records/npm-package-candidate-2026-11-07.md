@@ -35,3 +35,16 @@ entries and declarations. Installed CLI and the real IPC unlock/restart lifecycl
 passed again. Documentation now uses public imports and distinguishes installed CLI
 from source commands; links to source-only documents use the public repository.
 No business rules or IPC permission allowlists changed.
+
+## Public registry acceptance
+
+The owner published 0.3.0 with a Token; npm initially returned 404 during processing,
+then exposed the version. A separate read verified `latest: 0.3.0` and matching
+SHA-512 integrity. The tested archive SHA-256 is
+`f903b48d218a5ac29171c6c45d742f2b0eed25915f17986d9a2ea6ab83410981`.
+Release source: `082a8db`.
+
+Fresh npm registry installation with scripts disabled passed public CLI version/help,
+IPC capability denial, admin unlock and locked restart preserving the execution
+address. The temporary project and disposable keys were removed. Trusted Publisher
+configuration and OIDC release for Wallet have not yet been verified.
