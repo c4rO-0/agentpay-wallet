@@ -1,5 +1,25 @@
 # Wallet TODO
 
+## npm client distribution — 2026-11-07
+
+- [x] Record npm-first plan; combined source ZIP is optional, not the primary installer.
+- [x] Step 1: commit verified User/Wallet Protocol dependency migration baseline.
+- [ ] Step 2: prepare Wallet public entry points, compiled npm artifact and standalone acceptance.
+- [ ] Step 3: migrate User to Wallet npm dependency and `agentpay` entry; remove sibling/build assumptions.
+- [ ] Step 4: installed/running compatibility, upgrade recovery and explicit uninstall modes.
+- [ ] Step 5: publish Wallet then User via OIDC; verify registry installs and update Market guides.
+- [ ] Step 6: participant setup/upgrade/restart/uninstall and official Anvil paid acceptance.
+
+
+## Public Protocol npm dependency
+
+- [x] Pin npm core 0.14.3; update imports, fixture resolution and lockfile.
+- [x] Verify independent install/build and all 29 behavioral tests; unchanged Protocol runtime bytes.
+- [x] Retire vendored archive and obsolete archive-manifest test; review current guides.
+- [x] Coordinate User dependency/pair-check migration; isolated installer preparation and User suite passed.
+- [ ] Commit/push the matching User and Wallet revisions before participant synchronization.
+
+
 ## Public-source preparation
 
 - [x] Review current tracked source and archive contents for sensitive material.
@@ -21,7 +41,7 @@
 - [x] Record [approved distribution direction](plans/user-wallet-distribution.md).
 - [ ] Define stable public client/IPC compatibility, including source/build/running identity.
 - [ ] Integrate User compatibility checks and verify supported unequal versions and rejection/recovery paths.
-- [ ] Supply standalone Wallet and combined User/Wallet release assets; verify Git/ZIP installation.
+- [ ] Supply standalone Wallet npm artifact; combined ZIP/platform assets are optional later.
 
 ## Remaining acceptance and release gates
 

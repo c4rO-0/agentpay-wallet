@@ -18,7 +18,7 @@ import {
   AGENTPAY_AUTHORIZATION_V2_MEDIA_TYPE,
   AGENTPAY_DELIVERY_V2_MEDIA_TYPE,
   AGENTPAY_NOTICE_V2_MEDIA_TYPE,
-} from "@agentpay/types";
+} from "@c4roa0/agentpay-protocol";
 import { randomBytes } from "node:crypto";
 import { keccak256, toUtf8Bytes } from "ethers";
 import { WalletError } from "./errors.js";

@@ -3,7 +3,7 @@
  * journals consistent; upstream payment success is not inferred here.
  */
 import { validateRenewal } from "./policy-renewal.js";
-import { assertUnixMilliseconds } from "@agentpay/types";
+import { assertUnixMilliseconds } from "@c4roa0/agentpay-protocol";
 import { appendFile, open, readFile, unlink } from "node:fs/promises";
 import { join } from "node:path";
 import {

@@ -3,7 +3,10 @@
 Wallet is a local signing process. User Runtime coordinates purchases and setup;
 Wallet keeps the Session Key and accepts only bounded operations over authenticated
 local IPC. The Safe owner wallet approves on-chain authority separately. Protocol
-owns canonical formats and contracts; Wallet consumes public artifacts.
+owns canonical formats and contracts; Wallet consumes the published npm package
+`@c4roa0/agentpay-protocol`. Its exact version is pinned in `package.json`, with
+integrity recorded in `pnpm-lock.yaml`. User enforces an exact dependency
+pair; use the matching npm-based User revision with this Wallet.
 
 ## Source map
 

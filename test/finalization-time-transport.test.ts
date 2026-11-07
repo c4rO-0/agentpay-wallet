@@ -12,7 +12,7 @@ const { legacy, v2 } = JSON.parse(
   readFileSync(
     new URL(
       "../fixtures/agentpay-finalization-disclosure-v2/records.json",
-      import.meta.resolve("@agentpay/types"),
+      import.meta.resolve("@c4roa0/agentpay-protocol"),
     ),
     "utf8",
   ),
@@ -22,7 +22,7 @@ test("Wallet validates finalization on non-Order actions and preserves authoriza
     readFileSync(
       new URL(
         "../fixtures/agentpay-service-authorization-v2/records.json",
-        import.meta.resolve("@agentpay/types"),
+        import.meta.resolve("@c4roa0/agentpay-protocol"),
       ),
       "utf8",
     ),
@@ -34,7 +34,7 @@ test("Wallet validates finalization on non-Order actions and preserves authoriza
     readFileSync(
       new URL(
         "../fixtures/agentpay-order-deadlines-v2/records.json",
-        import.meta.resolve("@agentpay/types"),
+        import.meta.resolve("@c4roa0/agentpay-protocol"),
       ),
       "utf8",
     ),

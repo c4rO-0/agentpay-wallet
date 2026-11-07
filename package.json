@@ -16,8 +16,8 @@
     "test": "tsc -p tsconfig.json && node --test dist/test/*.test.js"
   },
   "dependencies": {
-    "@agentpay/types": "file:vendor/protocol/agentpay-types-0.14.1.tgz",
-    "ethers": "6.17.0"
+    "ethers": "6.17.0",
+    "@c4roa0/agentpay-protocol": "0.14.3"
   },
   "devDependencies": {
     "@types/node": "22.7.5",

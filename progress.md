@@ -1,5 +1,45 @@
 # AgentPay Wallet progress
 
+## npm client distribution plan — 2026-11-07
+
+Approved npm-first distribution for Protocol, Wallet and User; separate repositories
+and processes remain. Ordinary users will install User, which supplies a reviewed
+compiled Wallet dependency. Combined source ZIP is optional later work. See the
+local distribution plan for public entries, upgrades, service paths, private data
+and uninstall boundaries. Steps 1–2 are authorized: commit the verified Protocol
+dependency baseline, then prepare/test Wallet's public package. User package
+integration and npm uploads are later loops; present sibling installation remains
+until replaced and verified.
+
+
+## User pairing follow-up — 2026-11-06
+
+The matching User working revision now consumes npm Protocol 0.14.3 and updates
+its exact pair check and vendor-free installer fingerprints. Isolated sibling install,
+Wallet build, 364 User tests and actual prepare-only install/retry passed. Mixed old
+archive/new npm checkouts are rejected. Both revisions must be synchronized together;
+this is not independent-version compatibility or participant/live-network acceptance.
+
+
+## Public npm dependency migration — 2026-11-06
+
+Wallet now pins `@c4roa0/agentpay-protocol@0.14.3` from npm. Only imports and fixture
+resolution changed; the lockfile records registry integrity without changing other
+resolved dependencies. Independent temporary installation without a parent repository,
+vendor directory or dist output passed frozen install, build and all 29 local
+behavioral tests (zero failures/skips). Old versus installed Protocol comparison:
+73 dist/schema/fixture files byte-identical. Removed the superseded archive-manifest
+test and vendored archive/license/manifest; historical evidence is retained privately.
+No running services, keys, Policies or Orders were changed.
+
+Integration limit: AgentPay User's `checkUpdatePair` still requires both repositories
+to use the old archive dependency. This Wallet revision is independently verified,
+not yet a compatible User/Wallet release pair. Next loop must migrate User imports,
+lockfile and pair metadata/checks together before guided install/repair acceptance.
+No fallback alias or bypass was added. Existing dated source-review records describe
+the earlier archive state and remain historical evidence.
+
+
 ## Public documentation follow-up — 2026-11-06
 
 The owner enabled public source visibility. Anonymous remote refs were verified:

@@ -15,7 +15,7 @@ const fixtures = JSON.parse(
   readFileSync(
     new URL(
       "../fixtures/agentpay-native-service-v1/records.json",
-      import.meta.resolve("@agentpay/types"),
+      import.meta.resolve("@c4roa0/agentpay-protocol"),
     ),
     "utf8",
   ),
@@ -24,7 +24,7 @@ const epoch = JSON.parse(
   readFileSync(
     new URL(
       "../fixtures/agentpay-participant-order-v2/records.json",
-      import.meta.resolve("@agentpay/types"),
+      import.meta.resolve("@c4roa0/agentpay-protocol"),
     ),
     "utf8",
   ),

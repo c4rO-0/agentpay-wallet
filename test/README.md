@@ -29,7 +29,6 @@ node --test dist/test/policy-renewal.test.js
 | Market connection | `market-connection.test.ts` | Canonical short-lived proofs and denial through the Agent capability |
 | Action transport | `settlement-request.test.ts`, `service-ready-ipc.test.ts`, `order-cancel.test.ts` | Scoped requests, response identity, timeouts, errors and IPC role boundaries |
 | Response time fields | `order-time-transport.test.ts`, `finalization-time-transport.test.ts`, `notice-delivery-time-transport.test.ts` | Distinct Order, non-Order finalization and notice/delivery response paths; normalize public wire fixtures and reject invalid responses |
-| Public dependency | `protocol-artifacts.test.ts` | Installed package version and declared archive integrity (provenance check) |
 
 Keep the flat layout while there are few suites: it supports the existing test glob
 and lets contributors find a feature directly. The long restart tests are sequential
@@ -73,9 +72,9 @@ acceptance require separate integration evidence.
 - Keep separate response tests for Order, finalization, authorization and notices:
   they validate distinct response paths. Do not call stub-signer HTTP tests IPC
   or full transaction tests.
-- Remove the Controller ABI method inventory and private-request hash checks from
-  Wallet's artifact test: those are Protocol concerns, not Wallet behavior. Retain
-  archive/version integrity as a clearly identified packaging check.
+- The retired vendored-archive test is no longer needed with npm distribution.
+  Dependency integrity is pinned in the frozen lockfile; verify upgrades through
+  independent installation and the Wallet behavioral suite.
 - Remove incidental memory/timing-metric assertions from the key lifecycle test.
   Keep audit timestamp and secret/signature exclusion checks.
 - Historical-read prerequisites use `bindPolicy`, rather than writing a binding

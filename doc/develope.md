@@ -45,7 +45,7 @@ and focused execution.
 | Original-Policy reads and request selectors | `historical-order-read.test.ts`, `settlement-request.test.ts` |
 | Market connection proof and Agent denial | `market-connection.test.ts` |
 | Cancellation and response identity | `order-cancel.test.ts`, transport tests |
-| Protocol artifact integrity/version | `protocol-artifacts.test.ts` |
+| Protocol dependency upgrade | Independent frozen installation and the Wallet behavioral suite |
 
 Example after a build:
 

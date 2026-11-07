@@ -13,7 +13,7 @@ const fixture = (name: string) =>
     readFileSync(
       new URL(
         `../fixtures/${name}/records.json`,
-        import.meta.resolve("@agentpay/types"),
+        import.meta.resolve("@c4roa0/agentpay-protocol"),
       ),
       "utf8",
     ),

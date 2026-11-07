@@ -28,6 +28,10 @@ They do not prove real-network compatibility or production readiness.
 
 ## Use Wallet
 
+For the migration to npm Protocol dependencies, update AgentPay User and Wallet
+together. An older User checkout still expects the former archive dependency and
+will reject this Wallet revision during repair.
+
 - For guided installation, authorization and service management, use
   [AgentPay User](https://github.com/c4rO-0/agentpay-user). Current source installation
   requires sibling `user/` and `wallet/` folders. The combined ZIP and compatibility
@@ -49,5 +53,6 @@ separate operations. Never share a Session Key, keystore password or capability 
 The current source is unaudited. Recorded private Anvil flows, including external
 owner signing through User, are scoped evidence, not approval for real funds.
 Private platform integration scripts and records are not distributed here.
-The one pinned Protocol dependency is built from the public source revision recorded
-in its manifest. Public package distribution remains separate work.
+Protocol is installed from npm as `@c4roa0/agentpay-protocol`, pinned to version
+`0.14.3`; the lockfile records package integrity. No local Protocol checkout or
+vendored archive is needed.
