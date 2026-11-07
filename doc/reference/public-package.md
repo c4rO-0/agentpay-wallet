@@ -1,8 +1,8 @@
 # Public Wallet package
 
-The 0.3.0 candidate is not published. It packages compiled JavaScript and TypeScript
+The 0.3.0 package contains compiled JavaScript and TypeScript
 declarations; installation does not create keys, start services or grant permission.
-AgentPay User integration is a separate next step.
+User 0.2.0 does not support this package; its integration is tracked separately.
 
 ## Integration entries
 
@@ -14,13 +14,20 @@ AgentPay User integration is a separate next step.
 | `@c4roa0/agentpay-wallet/package.json` | Read installed version and dependency metadata |
 
 The installed command is `agentpay-wallet`; use `--help` or `--version` to inspect it.
-For a programmatic launcher:
+For a programmatic launcher, install the dependency in your project and save this
+as an `.mjs` file. Set `WALLET_DATA_DIR` to the initialized Wallet directory. The
+service starts locked and runs until stopped:
 
 ```js
 import { spawn } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+
+const dataDirectory = process.env.WALLET_DATA_DIR;
+if (!dataDirectory) throw new Error('Set WALLET_DATA_DIR to an initialized Wallet directory.');
 const cli = fileURLToPath(import.meta.resolve('@c4roa0/agentpay-wallet/cli'));
-const child = spawn(process.execPath, [cli, 'serve', dataDirectory]);
+const child = spawn(process.execPath, [cli, 'serve', dataDirectory], { stdio: 'inherit' });
+child.on('error', error => { console.error(error.message); process.exitCode = 1; });
+child.on('exit', code => { process.exitCode = code ?? 1; });
 ```
 
 Use the client entry for Agent/Runtime requests. The server still checks each
@@ -34,10 +41,10 @@ Keep private data outside the package directory. Upgrading files does not upgrad
 an already running process; User's planned integration must restart the service and
 check compatibility without replacing keys, Policies or Order history.
 
-## Candidate verification
+## Package verification
 
 From a source checkout, install dependencies and run `pnpm test:package`.
 The test installs the packed artifact outside the checkout and exercises the CLI,
 IPC permission checks, unlock and process restart. It uses no live network chain
-or payment. `pnpm build:package` builds the artifact; `npm pack --ignore-scripts`
-can then create a local tarball for review. npm publication remains disabled.
+or payment. `npm pack` rebuilds compiled files through its prepack step before creating a
+local tarball for review. Do not bypass that step with `--ignore-scripts`. Publication requires the separate maintainer release procedure.

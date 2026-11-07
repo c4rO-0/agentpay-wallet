@@ -1,63 +1,80 @@
 # AgentPay Wallet
 
-Wallet is a local signing service for bounded AgentPay payments. It protects a
-Session Key and validates AgentPay requests; a Safe and its Spending Module enforce
-the on-chain authorization. Eligible purchases do not require a new owner signature.
-Wallet is separate from User Runtime and never exposes generic message or transaction
-signing to an Agent. It is not a general-purpose cryptocurrency wallet.
+AgentPay Wallet is a local signing service that lets an AI Agent make payments
+within limits approved by the user. It keeps the Session Key on the user's machine
+and checks payment requests against a bounded Safe authorization: total budget,
+per-payment limit, expiry and eligible services. The Safe Module enforces these
+limits on-chain.
 
-## Build and verify independently
+Wallet runs separately from the Agent and User Runtime. It exposes specific
+payment and Order-support operations, not arbitrary message or transaction signing.
 
-Use Node.js 22.22.3 or newer and pnpm 10. Run from this repository:
+## Install
 
-Corepack is required by the commands below. If it is absent, install it with
-`npm install --global corepack` using your Node installation.
+Requires Node.js 22.22.3 or newer. The local service uses Unix sockets; Linux is the
+verified platform for this release. macOS acceptance is still pending.
 
 ```bash
-corepack enable
-corepack prepare pnpm@10.0.0 --activate
-pnpm install --frozen-lockfile
-pnpm build
-pnpm test
+npm install --global @c4roa0/agentpay-wallet@0.3.0
+agentpay-wallet --help
 ```
 
-`pnpm test` builds and exercises local Wallet behavior with disposable keys and
-controlled RPC/HTTP fixtures. It needs no live chain, database or sibling repository.
-Tests use local sockets/ports; run them in an environment that permits these.
-They do not prove real-network compatibility or production readiness.
+The package includes compiled JavaScript. You do not need a Protocol checkout,
+pnpm or a TypeScript build to use it.
 
-## Use Wallet
+**Using AgentPay User?** User 0.2.0 does not support this Wallet package yet. Keep
+your existing matching User/Wallet installation until User's npm integration is
+released. Do not replace its Wallet folder with version 0.3.0.
 
-Wallet 0.3.0 is an **unpublished npm package candidate**. It provides a compiled
-CLI and public client entries; npm installation needs no TypeScript build. User's
-migration to this package is the next stage. Do not replace Wallet in an existing
-User 0.2.0 source pair with this candidate: that installer's pair check rejects it.
+## Run a local Wallet
 
-- For standalone integration, read [public package interfaces](https://github.com/c4rO-0/agentpay-wallet/blob/main/doc/reference/public-package.md)
-  and [local CLI usage](https://github.com/c4rO-0/agentpay-wallet/blob/main/doc/usage.md).
-- For guided installation and owner approval, use a matching released
-  [AgentPay User](https://github.com/c4rO-0/agentpay-user) and Wallet pair until User's
-  npm integration is available. Separate sibling source folders are still required
-  by that existing installation flow.
+Choose a private data directory outside the program installation. In one terminal:
 
-To verify the candidate from source, run `pnpm test:package` after installing
-dependencies. It builds and installs a tarball in a temporary project, then tests
-the installed CLI and real Wallet process. It does not publish anything.
+```bash
+agentpay-wallet init "$HOME/.local/share/agentpay-wallet"
+agentpay-wallet serve "$HOME/.local/share/agentpay-wallet"
+```
 
-Wallet starts locked. Unlocking permits bounded operations; it does not create
-spending permission. Local lock, process shutdown and on-chain revocation are
-separate operations. Never share a Session Key, keystore password or capability token.
+`init` creates an encrypted Session Key and asks you to set its password. Back up
+the encrypted key file and keep its password safe; the password alone cannot
+recover a lost key. `serve` runs in the foreground and starts locked.
 
-## Documentation
+In a second terminal:
 
-- [Architecture](https://github.com/c4rO-0/agentpay-wallet/blob/main/doc/architecture.md), [design](https://github.com/c4rO-0/agentpay-wallet/blob/main/doc/design.md) and [contributing](https://github.com/c4rO-0/agentpay-wallet/blob/main/CONTRIBUTING.md)
-- [Security policy](https://github.com/c4rO-0/agentpay-wallet/blob/main/SECURITY.md) and [secret handling](https://github.com/c4rO-0/agentpay-wallet/blob/main/doc/security/secret-handling.md)
-- [Documentation catalog](https://github.com/c4rO-0/agentpay-wallet/blob/main/doc/README.md), [progress](https://github.com/c4rO-0/agentpay-wallet/blob/main/progress.md), [TODO](https://github.com/c4rO-0/agentpay-wallet/blob/main/doc/TODO.md)
-- [MIT license](https://github.com/c4rO-0/agentpay-wallet/blob/main/LICENSE)
+```bash
+agentpay-wallet unlock "$HOME/.local/share/agentpay-wallet"
+agentpay-wallet status "$HOME/.local/share/agentpay-wallet"
+```
 
-The current source is unaudited. Recorded private Anvil flows, including external
-owner signing through User, are scoped evidence, not approval for real funds.
-Private platform integration scripts and records are not distributed here.
-Protocol is installed from npm as `@c4roa0/agentpay-protocol`, pinned to version
-`0.14.3`; the lockfile records package integrity. No local Protocol checkout or
-vendored archive is needed.
+This prepares the local service; it does **not** authorize spending. Payments also
+require a Safe owner-approved Policy and a verified local binding. See the
+[usage guide](https://github.com/c4rO-0/agentpay-wallet/blob/main/doc/usage.md) for
+service operation, authorization boundaries and recovery.
+
+## Integrate with an application
+
+Install Wallet as a project dependency to use its public client:
+
+```bash
+npm install @c4roa0/agentpay-wallet@0.3.0
+```
+
+- [Public interfaces](https://github.com/c4rO-0/agentpay-wallet/blob/main/doc/reference/public-package.md): client, trusted local administration and process launcher.
+- [IPC guide](https://github.com/c4rO-0/agentpay-wallet/blob/main/doc/reference/local-ipc.md): capability roles, request behavior and a status example.
+
+Keep the Session Key and capability tokens private. Locking Wallet stops new local
+signatures; it does not revoke on-chain permission or cancel an existing Order.
+
+## Develop and contribute
+
+Clone this repository and follow the
+[developer guide](https://github.com/c4rO-0/agentpay-wallet/blob/main/doc/develope.md).
+The build and tests run independently, without User, a live chain or a database.
+The package uses the public `@c4roa0/agentpay-protocol` dependency.
+
+- [Architecture](https://github.com/c4rO-0/agentpay-wallet/blob/main/doc/architecture.md) and [design](https://github.com/c4rO-0/agentpay-wallet/blob/main/doc/design.md)
+- [Contributing](https://github.com/c4rO-0/agentpay-wallet/blob/main/CONTRIBUTING.md) and [documentation catalog](https://github.com/c4rO-0/agentpay-wallet/blob/main/doc/README.md)
+- [Security reporting](https://github.com/c4rO-0/agentpay-wallet/blob/main/SECURITY.md) and [secret handling](https://github.com/c4rO-0/agentpay-wallet/blob/main/doc/security/secret-handling.md)
+
+Wallet is MIT licensed and has not undergone an independent security audit.
+Local tests and Anvil rehearsals do not establish production or real-funds readiness.

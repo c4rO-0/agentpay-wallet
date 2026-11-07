@@ -2,10 +2,20 @@
 
 ## Start with a standalone checkout
 
-Follow [README](../README.md) to install Node/pnpm dependencies and build Wallet.
-No User or Settlement checkout is required for `pnpm test`. Tests use disposable
-keys, temporary directories and controlled local sockets/HTTP endpoints. They do
-not require a live chain, database or real spending permission.
+Install Node.js 22.22.3 or newer and pnpm 10. If Corepack is not available, install
+it with `npm install --global corepack`. From the Wallet repository:
+
+```bash
+corepack enable
+corepack prepare pnpm@10.0.0 --activate
+pnpm install --frozen-lockfile
+pnpm test
+```
+
+`pnpm test` compiles the source and tests, then runs the behavioral suite. No User
+or Settlement checkout is required. Tests use disposable keys, temporary directories
+and controlled local sockets/HTTP endpoints; the host must permit local sockets.
+No live chain, database or real spending permission is needed.
 
 For a memory-constrained machine, run the same suite sequentially:
 
@@ -70,10 +80,11 @@ review. Use [contribution guidance](reference/CONTRIBUTING.md) for review expect
 
 ## Integration surface
 
-Current compiled entry: `dist/src/index.js`; CLI: `dist/src/cli.js`. For a trusted
-local integration, see [IPC reference](reference/local-ipc.md). Internal exported
-classes are not a stable distribution contract or a sandbox. The supported client
-boundary and independent version checks are [planned](plans/user-wallet-distribution.md).
+Use the [public package entries](reference/public-package.md) for integration.
+`dist/src` is source-development build output, not a supported package import path.
+The IPC client preserves the existing capability checks; trusted local administration
+runs with the caller's filesystem permissions. User package adoption and independent
+running-version checks remain [planned](plans/user-wallet-distribution.md).
 
 Private platform scripts and records are deliberately absent. Public contributors
 must not need private server source to build or test Wallet. Never place real keys,
@@ -90,5 +101,7 @@ Network access is needed for npm dependencies; local Unix sockets must be allowe
 Temporary installation and data directories are removed after the check.
 
 `pnpm build:package` prepares compiled package files without touching `dist/`.
-Before packing manually, run this command; packing alone does not rebuild code.
-Publication is intentionally blocked by `private: true` until the release stage.
+`npm pack` also rebuilds through prepack, preventing missing or stale compiled files.
+Do not use `--ignore-scripts` when creating the package. Installing the finished
+tarball does not run this build hook or need a compiler.
+See the [release runbook](runbooks/npm-publication.md) before publication.

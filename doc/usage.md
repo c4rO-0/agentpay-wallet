@@ -1,16 +1,21 @@
 # Wallet usage
 
-Build with the commands in the [README](../README.md). Wallet can run independently;
-User supplies the guided AgentPay installation and owner-approval experience.
+Wallet can run independently; User supplies guided AgentPay setup and owner approval.
+For a source checkout, follow the build
+instructions in the [developer guide](https://github.com/c4rO-0/agentpay-wallet/blob/main/doc/develope.md).
 
 ## Standalone service
 
-Use a private data directory outside the checkout. In one terminal:
+After installing the package as a dependency, use its command from your project's
+`node_modules/.bin` (or `agentpay-wallet` if installed on PATH):
 
 ```bash
-node dist/src/cli.js init "$HOME/.local/share/agentpay-wallet"
-node dist/src/cli.js serve "$HOME/.local/share/agentpay-wallet"
+./node_modules/.bin/agentpay-wallet init "$HOME/.local/share/agentpay-wallet"
+./node_modules/.bin/agentpay-wallet serve "$HOME/.local/share/agentpay-wallet"
 ```
+
+Source contributors can use `node dist/src/cli.js` after `pnpm build` instead.
+In either case, keep private data outside the program installation.
 
 Initialization asks for an unlock secret. Keep the encrypted Session Key backup
 and password safe. The service starts locked and stays in the foreground; in a
@@ -18,10 +23,25 @@ second terminal, use the status/unlock commands below. Initialization does not g
 spending permission. Do not manually construct a Policy binding to bypass independent
 verification. Use User's owner-approval guide or the documented bounded integration.
 
+## Data and service lifecycle
+
+The directory you pass to each command contains `session.keystore.json`,
+capability tokens, `policy.json` once bound, and local recovery journals. Keep this
+directory private and back it up securely. Store its unlock password separately.
+Do not copy it into the package folder or publish it with your application.
+
+`serve` stays in the foreground. Ctrl+C stops that process; starting it again loads
+the same data and starts locked. npm installation does not configure automatic
+startup. Only one Wallet process should use a given data directory.
+
+Use `lock` to stop new local signatures without stopping the process. This does
+not revoke signed requests or on-chain authorization. `status` reports saved local
+state, not a fresh verification of balance, expiry or revocation on the chain.
+
 ## Guided AgentPay use
 
 The current User installer requires its matching Wallet 0.2.0 source revision;
-it does not yet accept this 0.3.0 npm candidate. For that released pair, clone Wallet
+it does not yet accept this 0.3.0 npm candidate. For that source pair, clone Wallet
 into `wallet` beside `user`. Run User's installation
 command to prepare both; see
 [AgentPay User installation](https://github.com/c4rO-0/agentpay-user/blob/main/doc/runbooks/user-onboarding.md).
@@ -52,8 +72,8 @@ files or reinitialize a key to solve an upgrade mismatch.
 Cancellation, result retrieval and support use narrow authenticated IPC and the
 original Order/Policy scope. Cancellation requested is not refund confirmed.
 Provider acceptance and original deadlines determine available actions; refunded
-funds do not replenish cumulative Policy spend. Consult current [progress](../progress.md)
-for evidence and [Order recovery](reference/original-order-recovery.md) for boundaries.
+funds do not replenish cumulative Policy spend. Consult current [progress](https://github.com/c4rO-0/agentpay-wallet/blob/main/progress.md)
+for evidence and [Order recovery](https://github.com/c4rO-0/agentpay-wallet/blob/main/doc/reference/original-order-recovery.md) for boundaries.
 
 ## Settlement request errors
 
@@ -65,15 +85,18 @@ the on-chain Policy checks.
 
 ## Local CLI reference
 
-After building, run from the Wallet repository. `DATA` denotes your private Wallet data directory, not the User Runtime directory.
+For a global npm installation, use the commands below. For a project dependency,
+replace `agentpay-wallet` with `./node_modules/.bin/agentpay-wallet`. Source
+contributors can use `node dist/src/cli.js` after building. `DATA` denotes the
+private Wallet directory, not the User Runtime directory.
 
 ```text
-node dist/src/cli.js init DATA
-node dist/src/cli.js serve DATA
-node dist/src/cli.js address DATA
-node dist/src/cli.js status DATA
-node dist/src/cli.js unlock DATA
-node dist/src/cli.js lock DATA
+agentpay-wallet init DATA
+agentpay-wallet serve DATA
+agentpay-wallet address DATA
+agentpay-wallet status DATA
+agentpay-wallet unlock DATA
+agentpay-wallet lock DATA
 ```
 
 Initialization/unlock prompt for the secret in the terminal. Startup stays locked. Prefer the User guide for chain authorization and initial binding; existing Policy replacement uses its explicit migration procedure. Local lock is not on-chain revocation.

@@ -1,7 +1,6 @@
 {
   "name": "@c4roa0/agentpay-wallet",
   "version": "0.3.0",
-  "private": true,
   "type": "module",
   "bin": {
     "agentpay-wallet": "bin/agentpay-wallet.mjs"
@@ -15,7 +14,8 @@
     "start": "node dist/src/cli.js",
     "test": "tsc -p tsconfig.json && node --test dist/test/*.test.js",
     "build:package": "node scripts/build-package.mjs",
-    "test:package": "node scripts/test-package.mjs"
+    "test:package": "node scripts/test-package.mjs",
+    "prepack": "node scripts/build-package.mjs"
   },
   "dependencies": {
     "ethers": "6.17.0",
@@ -63,5 +63,9 @@
     "doc/usage.md",
     "doc/reference/local-ipc.md",
     "doc/reference/public-package.md"
-  ]
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
 }

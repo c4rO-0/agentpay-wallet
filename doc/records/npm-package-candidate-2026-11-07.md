@@ -25,3 +25,13 @@ integration, cross-platform support, npm registry publication or real-funds read
 
 User 0.2.0 still expects its previous source Wallet pair. It must adopt the public
 package entries before this candidate can replace that pair in guided installation.
+
+## Review follow-up
+
+A second clean temporary installation verified the normal `npm pack` prepack hook
+builds missing compiled files, then successfully installed that tarball with scripts
+disabled. A strict NodeNext TypeScript consumer compiled against public client/local
+entries and declarations. Installed CLI and the real IPC unlock/restart lifecycle
+passed again. Documentation now uses public imports and distinguishes installed CLI
+from source commands; links to source-only documents use the public repository.
+No business rules or IPC permission allowlists changed.

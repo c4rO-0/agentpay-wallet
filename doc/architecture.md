@@ -5,8 +5,8 @@ Wallet keeps the Session Key and accepts only bounded operations over authentica
 local IPC. The Safe owner wallet approves on-chain authority separately. Protocol
 owns canonical formats and contracts; Wallet consumes the published npm package
 `@c4roa0/agentpay-protocol`. Its exact version is pinned in `package.json`, with
-integrity recorded in `pnpm-lock.yaml`. User enforces an exact dependency
-pair; use the matching npm-based User revision with this Wallet.
+integrity recorded in `pnpm-lock.yaml`. User 0.2.0 enforces its old source pair and does not yet accept Wallet 0.3.0.
+The public-package integration is tracked separately.
 
 ## Source map
 
@@ -26,7 +26,9 @@ pair; use the matching npm-based User revision with this Wallet.
 | `src/policy-migration.ts` | Migration plans, chain inspection and journal validation | migration tests |
 | `src/errors.ts` | Public error vocabulary and unexpected-error redaction | HTTP/IPC tests |
 | `src/server-process.ts` | Minimal child-process service entry for integration tests | lifecycle tests |
-| `src/index.ts` | Current source-library exports | developer guide |
+| `src/index.ts` | Internal source/test exports; not the npm root | developer guide |
+| `src/client.ts`, `src/local.ts` | Public process client and trusted local administration | public package reference |
+| `bin/agentpay-wallet.mjs` | Installed CLI entry | usage guide |
 
 `Phase0Wallet`, `Phase0Policy` and `PHASE0_*` are retained source names. They currently
 use the `agentpay.safe-module.v1` binding; “Phase0” is not a separate payment rail.

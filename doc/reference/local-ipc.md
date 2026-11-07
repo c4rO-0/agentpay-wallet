@@ -2,7 +2,7 @@
 
 This describes the current source interface for trusted local integrators. It is
 not a new wire version or a promise that internal module paths are a released SDK.
-The stable client/distribution contract is tracked separately.
+The npm candidate entry points are described in [public package](public-package.md).
 
 ## Transport and capabilities
 
@@ -27,11 +27,11 @@ a Wallet to a Market account. Neither role has a generic signing or transaction 
 
 ## Read local status
 
-After building and starting an initialized service, a trusted local program can use:
+After installing the candidate tarball and starting an initialized service, a trusted local program can use:
 
 ```js
 import { join } from 'node:path';
-import { callWallet, readCapability } from './dist/src/index.js';
+import { callWallet, readCapability } from '@c4roa0/agentpay-wallet';
 
 const dataDir = process.env.WALLET_DATA_DIR; // Explicit private Wallet directory.
 if (!dataDir) throw new Error('Set WALLET_DATA_DIR first.');
@@ -40,8 +40,7 @@ const status = await callWallet(join(dataDir, 'wallet.sock'), token, 'status');
 console.log({ locked: status.locked, bound: status.bound });
 ```
 
-Save the example at the repository root or adjust the import to your installed
-entry. This performs no payment or chain lookup. Do not print the token. Direct
+Run the example in the project where the Wallet package is installed. This performs no payment or chain lookup. Do not print the token. Direct
 library imports run with the caller's OS permissions; capability checks protect the
 IPC boundary, not hostile code already able to read the same user's files.
 
@@ -49,7 +48,7 @@ IPC boundary, not hostile code already able to read the same user's files.
 
 Responses contain `ok` and either `result` or an error code/message. Unknown internal
 exceptions use `INTERNAL_ERROR`; reviewed upstream failures may include
-`settlementCode`. See [error provenance](../security/settlement-error-provenance.md).
+`settlementCode`. See [error provenance](https://github.com/c4rO-0/agentpay-wallet/blob/main/doc/security/settlement-error-provenance.md).
 Never log passwords, signed payloads or capability tokens to diagnose a failure.
 
 `status` is a local snapshot. Bound does not mean unexpired, unrevoked, funded or
