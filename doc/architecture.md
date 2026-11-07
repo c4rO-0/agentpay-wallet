@@ -114,3 +114,11 @@ RPC honesty/finality, code authenticity, host security and dependency integrity
 remain assumptions. Local tests and private Anvil evidence do not certify live-network
 readiness. See [design rationale](design.md), [IPC](reference/local-ipc.md) and
 [security policy](security/SECURITY.md).
+
+## Public package boundary
+
+`src/client.ts` exposes the capability-scoped process client. `src/local.ts` exposes
+existing trusted local administration. `bin/agentpay-wallet.mjs` is the installed
+CLI; it delegates to the same CLI implementation used by source builds. Package
+builds compile source into `lib/` without tests or source maps, separately from
+source-development `dist/`. See [public entries](reference/public-package.md).

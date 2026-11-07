@@ -79,3 +79,16 @@ Private platform scripts and records are deliberately absent. Public contributor
 must not need private server source to build or test Wallet. Never place real keys,
 private endpoint configuration, signed payloads or runtime data in test fixtures.
 Report vulnerabilities through the [security policy](security/SECURITY.md).
+
+## Verify the npm artifact
+
+Run `pnpm test:package` after dependency installation. This builds `lib/`, checks
+the packed file list, installs the tarball into a temporary standalone project,
+and exercises public CLI/client entries with a disposable Wallet. It checks denied
+capabilities and generic signing, unlock, and restart with the same key locked.
+Network access is needed for npm dependencies; local Unix sockets must be allowed.
+Temporary installation and data directories are removed after the check.
+
+`pnpm build:package` prepares compiled package files without touching `dist/`.
+Before packing manually, run this command; packing alone does not rebuild code.
+Publication is intentionally blocked by `private: true` until the release stage.

@@ -28,16 +28,21 @@ They do not prove real-network compatibility or production readiness.
 
 ## Use Wallet
 
-For the migration to npm Protocol dependencies, update AgentPay User and Wallet
-together. An older User checkout still expects the former archive dependency and
-will reject this Wallet revision during repair.
+Wallet 0.3.0 is an **unpublished npm package candidate**. It provides a compiled
+CLI and public client entries; npm installation needs no TypeScript build. User's
+migration to this package is the next stage. Do not replace Wallet in an existing
+User 0.2.0 source pair with this candidate: that installer's pair check rejects it.
 
-- For guided installation, authorization and service management, use
-  [AgentPay User](https://github.com/c4rO-0/agentpay-user). Current source installation
-  requires sibling `user/` and `wallet/` folders. The combined ZIP and compatibility
-  checks are [planned](doc/plans/user-wallet-distribution.md), not available yet.
-- For standalone local CLI and integration, read [usage](doc/usage.md) and
-  [development](doc/develope.md). Keep runtime data outside the source checkout.
+- For standalone integration, read [public package interfaces](https://github.com/c4rO-0/agentpay-wallet/blob/main/doc/reference/public-package.md)
+  and [local CLI usage](https://github.com/c4rO-0/agentpay-wallet/blob/main/doc/usage.md).
+- For guided installation and owner approval, use a matching released
+  [AgentPay User](https://github.com/c4rO-0/agentpay-user) and Wallet pair until User's
+  npm integration is available. Separate sibling source folders are still required
+  by that existing installation flow.
+
+To verify the candidate from source, run `pnpm test:package` after installing
+dependencies. It builds and installs a tarball in a temporary project, then tests
+the installed CLI and real Wallet process. It does not publish anything.
 
 Wallet starts locked. Unlocking permits bounded operations; it does not create
 spending permission. Local lock, process shutdown and on-chain revocation are
@@ -45,10 +50,10 @@ separate operations. Never share a Session Key, keystore password or capability 
 
 ## Documentation
 
-- [Architecture](doc/architecture.md), [design](doc/design.md) and [contributing](CONTRIBUTING.md)
-- [Security policy](SECURITY.md) and [secret handling](doc/security/secret-handling.md)
-- [Documentation catalog](doc/README.md), [progress](progress.md), [TODO](doc/TODO.md)
-- [MIT license](LICENSE)
+- [Architecture](https://github.com/c4rO-0/agentpay-wallet/blob/main/doc/architecture.md), [design](https://github.com/c4rO-0/agentpay-wallet/blob/main/doc/design.md) and [contributing](https://github.com/c4rO-0/agentpay-wallet/blob/main/CONTRIBUTING.md)
+- [Security policy](https://github.com/c4rO-0/agentpay-wallet/blob/main/SECURITY.md) and [secret handling](https://github.com/c4rO-0/agentpay-wallet/blob/main/doc/security/secret-handling.md)
+- [Documentation catalog](https://github.com/c4rO-0/agentpay-wallet/blob/main/doc/README.md), [progress](https://github.com/c4rO-0/agentpay-wallet/blob/main/progress.md), [TODO](https://github.com/c4rO-0/agentpay-wallet/blob/main/doc/TODO.md)
+- [MIT license](https://github.com/c4rO-0/agentpay-wallet/blob/main/LICENSE)
 
 The current source is unaudited. Recorded private Anvil flows, including external
 owner signing through User, are scoped evidence, not approval for real funds.

@@ -18,3 +18,7 @@ coverage/
 *.key
 *.p12
 *.pfx
+
+# Compiled npm artifact
+lib/
+*.tgz

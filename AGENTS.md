@@ -89,3 +89,13 @@ bytes, concurrency and recovery decisions in comments; avoid comments that merel
 repeat syntax. Distinguish local snapshots from verified chain state and future
 plans from available behavior. Format code consistently, preserve signed payload
 ordering, and avoid unrelated behavioral changes during documentation polish.
+
+## npm package boundary
+
+Public package entries are `src/client.ts`, `src/local.ts` and
+`bin/agentpay-wallet.mjs`. Keep Agent/Runtime IPC calls separate from trusted local
+administration. Do not expose generic signing or internal keystore/file helpers to
+avoid adapting a consumer. Verify artifact changes with `pnpm test:package`; it
+installs a tarball outside the checkout and exercises real IPC/process behavior.
+Keep tests, fixtures, keys and source maps out of the package. Package publication
+remains a separate approval; `private: true` intentionally blocks it for now.

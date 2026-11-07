@@ -20,12 +20,14 @@ verification. Use User's owner-approval guide or the documented bounded integrat
 
 ## Guided AgentPay use
 
-Clone Wallet into `wallet` beside the `user` checkout. Run User's installation
+The current User installer requires its matching Wallet 0.2.0 source revision;
+it does not yet accept this 0.3.0 npm candidate. For that released pair, clone Wallet
+into `wallet` beside `user`. Run User's installation
 command to prepare both; see
 [AgentPay User installation](https://github.com/c4rO-0/agentpay-user/blob/main/doc/runbooks/user-onboarding.md).
 Keep User data separate from both source folders. User manages background services,
 owner approval, renewal, backup restoration and Market connections. Wallet remains
-the signing boundary. A combined download is planned, not yet a release artifact.
+the signing boundary. User installation from npm is planned, not yet available.
 
 External Safe owner signing through User has private single-owner Anvil evidence.
 That does not establish live-network, multisig or every headless environment's

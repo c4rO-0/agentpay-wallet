@@ -4,7 +4,7 @@
 
 - [x] Record npm-first plan; combined source ZIP is optional, not the primary installer.
 - [x] Step 1: commit verified User/Wallet Protocol dependency migration baseline.
-- [ ] Step 2: prepare Wallet public entry points, compiled npm artifact and standalone acceptance.
+- [x] Step 2: prepare Wallet public entry points, compiled npm artifact and standalone acceptance (29 behavioral tests plus installed-package CLI/IPC lifecycle).
 - [ ] Step 3: migrate User to Wallet npm dependency and `agentpay` entry; remove sibling/build assumptions.
 - [ ] Step 4: installed/running compatibility, upgrade recovery and explicit uninstall modes.
 - [ ] Step 5: publish Wallet then User via OIDC; verify registry installs and update Market guides.
@@ -41,7 +41,7 @@
 - [x] Record [approved distribution direction](plans/user-wallet-distribution.md).
 - [ ] Define stable public client/IPC compatibility, including source/build/running identity.
 - [ ] Integrate User compatibility checks and verify supported unequal versions and rejection/recovery paths.
-- [ ] Supply standalone Wallet npm artifact; combined ZIP/platform assets are optional later.
+- [x] Prepare and independently test standalone Wallet npm artifact; publication remains pending.
 
 ## Remaining acceptance and release gates
 

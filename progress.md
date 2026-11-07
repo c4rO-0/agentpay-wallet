@@ -1,5 +1,20 @@
 # AgentPay Wallet progress
 
+## Wallet npm candidate verified — 2026-11-07
+
+Steps 1–2 complete: Protocol migration baseline committed; Wallet 0.3.0 candidate
+provides public client/local-administration/CLI entries and compiled declarations.
+Independent frozen install/build and 29 behavioral tests passed. The packed artifact
+installed without sibling sources; real CLI/IPC checks passed for capability denial,
+no generic signing, unlock and restart preserving the key while locking the service.
+No npm publication, service restart or participant data change was performed.
+
+Next: User consumes this reviewed Wallet package and resolves public entries instead
+of sibling `dist/src` files. Current User 0.2.0 pair checks deliberately reject Wallet
+0.3.0; do not update a participant Wallet alone. Publication remains blocked by
+`private: true`; package and User integration must be completed before synchronization.
+
+
 ## npm client distribution plan — 2026-11-07
 
 Approved npm-first distribution for Protocol, Wallet and User; separate repositories
@@ -32,12 +47,10 @@ behavioral tests (zero failures/skips). Old versus installed Protocol comparison
 test and vendored archive/license/manifest; historical evidence is retained privately.
 No running services, keys, Policies or Orders were changed.
 
-Integration limit: AgentPay User's `checkUpdatePair` still requires both repositories
-to use the old archive dependency. This Wallet revision is independently verified,
-not yet a compatible User/Wallet release pair. Next loop must migrate User imports,
-lockfile and pair metadata/checks together before guided install/repair acceptance.
-No fallback alias or bypass was added. Existing dated source-review records describe
-the earlier archive state and remain historical evidence.
+Historical limit resolved in the subsequent User pairing loop above: the source
+pair migrated to npm Protocol. The newer Wallet 0.3.0 package candidate now needs
+its separate User integration; no fallback alias or pair-check bypass was added.
+Existing dated source-review records remain historical evidence.
 
 
 ## Public documentation follow-up — 2026-11-06
