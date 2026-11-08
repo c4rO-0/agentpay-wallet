@@ -53,7 +53,11 @@ try {
   const agent = await readCapability(data, 'agent');
   const socket = join(data, 'wallet.sock');
   await start();
-  assert.equal((await callWallet(socket, agent, 'status')).locked, true);
+  const snapshot = await callWallet(socket, agent, 'status');
+  assert.equal(snapshot.locked, true);
+  assert.equal(snapshot.software.name, '@c4roa0/agentpay-wallet');
+  assert.equal(snapshot.software.version, process.argv[2]);
+  assert.equal(snapshot.software.interfaceVersion, 1);
   assert.equal((await callWallet(socket, agent, 'getAddress')).address, address);
   await assert.rejects(callWallet(socket, 'invalid-token', 'status'));
   await assert.rejects(callWallet(socket, agent, 'unlock', {password}));

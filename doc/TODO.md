@@ -1,5 +1,11 @@
 # Wallet TODO
 
+## Software reporting release — 2026-11-07
+
+- [x] Add process-start read-only software metadata, preserve Policy version semantics.
+- [x] Verify lifecycle and installed-package IPC reporting.
+- [ ] Maintainer-authorized Wallet 0.3.1 OIDC release; then User exact dependency adoption.
+
 ## npm client distribution — 2026-11-07
 
 - [x] Record npm-first plan; combined source ZIP is optional, not the primary installer.
@@ -10,7 +16,7 @@
 - [ ] Step 4: installed/running compatibility, upgrade recovery and explicit uninstall modes.
 - [ ] Step 5: publish Wallet then User via OIDC; verify registry installs and update Market guides.
   - [x] Wallet 0.3.0 first Token publication; registry integrity/latest and fresh public install/CLI/IPC verified.
-  - [ ] Configure Wallet npm Trusted Publisher and validate with a later reviewed OIDC release. User publication and Market guide updates remain pending.
+  - [ ] Validate the configured Wallet/User Trusted Publishers with reviewed OIDC releases. Both 0.3.0 packages are published; Market guide updates remain pending.
 - [ ] Step 6: participant setup/upgrade/restart/uninstall and official Anvil paid acceptance.
 
 

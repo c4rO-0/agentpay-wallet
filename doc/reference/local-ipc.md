@@ -56,3 +56,17 @@ accepted by a current deployment. A timeout does not prove a remote operation di
 not happen. Retain original Order/request identity and use read/recovery operations
 before deciding what to retry. Current transport behavior and its limits should
 be tested when changing IPC; do not add generic retries around financial operations.
+
+## Running software version
+
+From Wallet 0.3.1, `status.software` reports `name`, `version`,
+`interfaceVersion` (1) and `protocolVersion`. The process captures this metadata
+at startup; replacing installed files does not update an already running process.
+The existing top-level `version` still describes the Policy format. Clients should
+treat absent software metadata as unverified, not as a matching version. This is a
+local compatibility diagnostic, not an authorization or attestation mechanism.
+
+Protocol reporting reads the installed package resolved by that process, rather than
+copying its dependency declaration. User preflight checks both User's and Wallet's
+resolved copies against the reviewed exact version, including nested dependencies.
+Package version checks establish compatibility metadata, not file-integrity attestation.

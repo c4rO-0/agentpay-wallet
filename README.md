@@ -11,20 +11,30 @@ payment and Order-support operations, not arbitrary message or transaction signi
 
 ## Install
 
-Requires Node.js 22.22.3 or newer. The local service uses Unix sockets; Linux is the
-verified platform for this release. macOS acceptance is still pending.
+**Using AgentPay with your AI Agent?** Install AgentPay User. It includes the matching
+Wallet package and guides you through setup; no separate Wallet installation is needed:
 
-```bash
+```sh
+npm install --global @c4roa0/agentpay-user@0.3.0
+agentpay install --market https://YOUR_MARKET_ORIGIN
+```
+
+Replace the Market URL with your platform's address. See the
+[AgentPay User installation guide](https://github.com/c4rO-0/agentpay-user#install-with-npm).
+
+### Standalone Wallet
+
+For developers integrating Wallet into another application, install it separately:
+
+```sh
 npm install --global @c4roa0/agentpay-wallet@0.3.0
 agentpay-wallet --help
 ```
 
-The package includes compiled JavaScript. You do not need a Protocol checkout,
-pnpm or a TypeScript build to use it.
-
-**Using AgentPay User?** User 0.2.0 does not support this Wallet package yet. Keep
-your existing matching User/Wallet installation until User's npm integration is
-released. Do not replace its Wallet folder with version 0.3.0.
+Both packages require Node.js 22.22.3 or newer and npm. Use a user-owned Node/npm
+installation with its executables on PATH. Linux is the verified platform; Wallet
+uses Unix sockets, and macOS acceptance is pending. The Wallet package includes
+compiled JavaScript, so no Protocol checkout, pnpm or TypeScript build is needed.
 
 ## Run a local Wallet
 

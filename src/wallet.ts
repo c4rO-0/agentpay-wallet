@@ -2,6 +2,7 @@
  * Wallet state coordinator. Keep signing, local binding changes and restart
  * journals consistent; upstream payment success is not inferred here.
  */
+import { walletSoftware } from "./software.js";
 import { validateRenewal } from "./policy-renewal.js";
 import { assertUnixMilliseconds } from "@c4roa0/agentpay-protocol";
 import { appendFile, open, readFile, unlink } from "node:fs/promises";
@@ -143,6 +144,7 @@ export class Phase0Wallet {
   /** Local snapshot only: bound does not imply current chain spending readiness. */
   status() {
     return {
+      software: walletSoftware,
       locked: this.backend.locked,
       bound: this.#policy !== null,
       version: this.#policy?.version ?? "unbound",

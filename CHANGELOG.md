@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.1 — unreleased
+
+- Report running software versions through read-only status for client repair checks.
+- Report the resolved Protocol package version, including nested npm installations.
+- Preserve existing Policy version, capabilities and signing rules.
+
 ## 0.3.0 — standalone npm package, 2026-11-07
 
 - Add explicit public IPC client, trusted local administration and CLI entries.

@@ -3,6 +3,12 @@
  * Keys, addresses and remote responses in this suite are test fixtures.
  */
 import assert from "node:assert/strict";
+import { createRequire } from "node:module";
+const packageManifest = createRequire(import.meta.url)("@c4roa0/agentpay-wallet/package.json");
+const expectedSoftware = {
+  name: packageManifest.name, version: packageManifest.version, interfaceVersion: 1,
+  protocolVersion: packageManifest.dependencies["@c4roa0/agentpay-protocol"],
+};
 import {
   chmod,
   mkdtemp,
@@ -86,6 +92,7 @@ test("fresh key survives real service restart and signs only structured unordere
     await initializeCapabilities(dataDir);
     const address = await initialized.address();
     assert.deepEqual(initialized.status(), {
+      software: expectedSoftware,
       locked: true,
       bound: false,
       version: "unbound",
@@ -102,6 +109,7 @@ test("fresh key survives real service restart and signs only structured unordere
     assert.deepEqual(
       await callWallet(join(dataDir, "wallet.sock"), agentToken, "status"),
       {
+        software: expectedSoftware,
         locked: true,
         bound: false,
         version: "unbound",
@@ -193,6 +201,7 @@ test("fresh key survives real service restart and signs only structured unordere
     assert.deepEqual(
       await callWallet(join(dataDir, "wallet.sock"), agentToken, "status"),
       {
+        software: expectedSoftware,
         locked: true,
         bound: true,
         version: "agentpay.safe-module.v1",
@@ -528,3 +537,24 @@ async function runProcess(
   });
   return { code, stdout, stderr };
 }
+
+test("running package identity stays at startup version after files are replaced", async () => {
+  const {mkdir} = await import('node:fs/promises');
+  const {execFileSync} = await import('node:child_process');
+  const root=await mkdtemp(join(tmpdir(),'wallet-software-'));
+  try {
+    const manifest={name:'@c4roa0/agentpay-wallet',version:'0.3.1',type:'module',exports:{'./package.json':'./package.json'},dependencies:{'@c4roa0/agentpay-protocol':'0.14.3'}};
+    await mkdir(join(root,'lib'));
+    const protocol = join(root,'node_modules/@c4roa0/agentpay-protocol');
+    await mkdir(protocol,{recursive:true});
+    await writeFile(join(protocol,'package.json'),JSON.stringify({name:'@c4roa0/agentpay-protocol',version:'0.14.3',exports:{'./schema':'./schema.json'}}));
+    await writeFile(join(protocol,'schema.json'),'{}');
+    await writeFile(join(root,'package.json'),JSON.stringify(manifest));
+    await writeFile(join(root,'lib/software.js'),await readFile(new URL('../src/software.js',import.meta.url)));
+    await writeFile(join(root,'probe.mjs'),`import {walletSoftware} from './lib/software.js'; import {writeFileSync} from 'node:fs'; console.log(walletSoftware.version); writeFileSync(new URL('./package.json',import.meta.url),JSON.stringify(${JSON.stringify({...manifest,version:'0.3.2'})})); console.log(walletSoftware.version);`);
+    assert.equal(execFileSync(process.execPath,[join(root,'probe.mjs')],{encoding:'utf8'}).trim(),'0.3.1\n0.3.1');
+    assert.equal(execFileSync(process.execPath,['--input-type=module','-e',"import {walletSoftware} from './lib/software.js'; console.log(walletSoftware.version)"],{cwd:root,encoding:'utf8'}).trim(),'0.3.2');
+    await writeFile(join(protocol,'package.json'),JSON.stringify({name:'@c4roa0/agentpay-protocol',version:'0.14.2',exports:{'./schema':'./schema.json'}}));
+    assert.equal(execFileSync(process.execPath,['--input-type=module','-e',"import {walletSoftware} from './lib/software.js'; console.log(walletSoftware.protocolVersion)"],{cwd:root,encoding:'utf8'}).trim(),'0.14.2');
+  } finally {await rm(root,{recursive:true,force:true});}
+});

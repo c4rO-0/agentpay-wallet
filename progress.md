@@ -1,5 +1,17 @@
 # AgentPay Wallet progress
 
+## Running software reporting candidate — 2026-11-07
+
+Wallet 0.3.1 adds read-only `status.software`: package name/version, local reporting
+interface version and Protocol dependency. Values are captured once at process start;
+Policy `version` keeps its existing meaning. These are local compatibility diagnostics,
+not remote attestation or authority to sign. No capability, signing or payment rules change.
+Behavioral checks passed, including version preservation when installed files change.
+The maintainer requested completion of this paired release on 2026-11-08.
+Actual installed Protocol reporting and standalone tarball verification passed.
+Next: publish Wallet 0.3.1 through OIDC before User pins the new package.
+Wallet's Trusted Publisher is configured; first OIDC publication remains pending.
+
 ## Wallet first npm publication complete — 2026-11-07
 
 `@c4roa0/agentpay-wallet@0.3.0` is public; npm `latest` is 0.3.0. The owner
