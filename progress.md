@@ -6,7 +6,9 @@ GitHub OIDC run 42490583169 succeeded from `20a6127`. Public npm 0.3.2 integrity
 matches the independently verified archive and exposes provenance. Tag `v0.3.2`
 identifies that original release commit; it uses the previous manual workflow and
 will not republish. Future release tags use the new tag-triggered workflow.
-User 0.3.2 pairing verification is the next step.
+User 0.3.2 pins this release; its 380-test suite and independent installed-process
+check passed, followed by successful tag-triggered OIDC publication. Participant
+update acceptance remains pending.
 
 ## Tag-triggered publication — 2026-11-08
 
