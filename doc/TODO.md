@@ -1,10 +1,18 @@
 # Wallet TODO
 
+## Wallet 0.3.2 publication
+
+- [x] Review package entries, running-version report, publishing workflow and current guides.
+- [x] Remove obsolete source-only and integration-pending instructions.
+- [x] Verify the 0.3.2 standalone archive and all 30 current behavioral checks.
+- [ ] Publish via GitHub OIDC and verify registry integrity/current Trusted Publisher.
+- [ ] Update User to the published exact Wallet dependency and verify the pair.
+
 ## Software reporting release — 2026-11-07
 
 - [x] Add process-start read-only software metadata, preserve Policy version semantics.
 - [x] Verify lifecycle and installed-package IPC reporting.
-- [ ] Maintainer-authorized Wallet 0.3.1 OIDC release; then User exact dependency adoption.
+- [x] Wallet 0.3.1 OIDC release and User 0.3.1 exact dependency adoption verified.
 
 ## npm client distribution — 2026-11-07
 
@@ -12,11 +20,12 @@
 - [x] Step 1: commit verified User/Wallet Protocol dependency migration baseline.
 - [x] Step 2: prepare Wallet public entry points, compiled npm artifact and standalone acceptance (29 behavioral tests plus installed-package CLI/IPC lifecycle).
 - [x] Review step 2: guard normal packing against missing/stale builds, correct public-interface docs and verify a standalone TypeScript consumer.
-- [ ] Step 3: migrate User to Wallet npm dependency and `agentpay` entry; remove sibling/build assumptions.
-- [ ] Step 4: installed/running compatibility, upgrade recovery and explicit uninstall modes.
+- [x] Step 3: User 0.3.1 consumes Wallet 0.3.1 through npm and exposes `agentpay`.
+- [x] Step 4 implementation: installed/running checks, upgrade recovery and explicit uninstall modes.
+- [ ] Step 4 acceptance: participant published-version upgrade and interruption recovery.
 - [ ] Step 5: publish Wallet then User via OIDC; verify registry installs and update Market guides.
   - [x] Wallet 0.3.0 first Token publication; registry integrity/latest and fresh public install/CLI/IPC verified.
-  - [ ] Validate the configured Wallet/User Trusted Publishers with reviewed OIDC releases. Both 0.3.0 packages are published; Market guide updates remain pending.
+  - [x] Validate Wallet/User Trusted Publishers through the 0.3.1 OIDC releases. Market guide updates remain pending.
 - [ ] Step 6: participant setup/upgrade/restart/uninstall and official Anvil paid acceptance.
 
 
@@ -26,7 +35,7 @@
 - [x] Verify independent install/build and all 29 behavioral tests; unchanged Protocol runtime bytes.
 - [x] Retire vendored archive and obsolete archive-manifest test; review current guides.
 - [x] Coordinate User dependency/pair-check migration; isolated installer preparation and User suite passed.
-- [ ] Commit/push the matching User and Wallet revisions before participant synchronization.
+- [x] Commit/push the published User/Wallet 0.3.1 pair.
 
 
 ## Public-source preparation
@@ -48,9 +57,10 @@
 ## Independent distribution
 
 - [x] Record [approved distribution direction](plans/user-wallet-distribution.md).
-- [ ] Define stable public client/IPC compatibility, including source/build/running identity.
-- [ ] Integrate User compatibility checks and verify supported unequal versions and rejection/recovery paths.
-- [x] Prepare and independently test standalone Wallet npm artifact; publication remains pending.
+- [x] Define public client/IPC exports and installed/running identity checks.
+- [x] Integrate exact reviewed dependency checks and mismatch/recovery behavior.
+- [ ] Later compatible-range/unequal-version support requires a separately verified matrix.
+- [x] Prepare and independently test standalone Wallet npm artifact; 0.3.1 is published.
 
 ## Remaining acceptance and release gates
 

@@ -1,35 +1,24 @@
 # Publish Wallet to npm
 
-Maintainers publish the standalone Wallet package; this does not deploy a service
-or upgrade User. Version 0.3.0 needs the planned User package integration before it
-can replace the existing source pair.
+Publishing the standalone Wallet package does not deploy a service or upgrade User.
+User adopts each reviewed Wallet version through its exact dependency and pairing
+checks, after that Wallet version is available in the public registry.
 
-## First publication
+## Prepare a release
 
-Use a clean reviewed source revision with Node 22.22.3 or newer and pnpm 10.
-Install frozen dependencies, run `pnpm build` and the behavioral suite, then:
+Use a reviewed source revision with Node 22.22.3 or newer and pnpm 10. Update
+`package.json` and the changelog, install frozen dependencies, build and run the
+behavioral suite. Then verify the independent package:
 
-```bash
+```sh
 node scripts/test-package.mjs artifacts/npm
 ```
 
-This retains the exact tarball that passed independent installation, TypeScript
-consumer and real IPC/process checks. It does not publish. Inspect the package's
-file list and README before uploading.
+This retains the tarball that passed standalone installation, TypeScript consumer
+and real IPC/process checks. Inspect its file list and README. Never include local
+configuration, keys or tokens. Commit and push the reviewed revision to main.
 
-Authenticate to npm as the maintainer using `npm login --auth-type=web`. Never put
-tokens in this repository or send them in chat. Publish the verified artifact:
-
-```bash
-npm publish artifacts/npm/c4roa0-agentpay-wallet-0.3.0.tgz --access public --ignore-scripts --registry=https://registry.npmjs.org/
-node scripts/verify-npm-release.mjs artifacts/npm/c4roa0-agentpay-wallet-0.3.0.tgz 0.3.0
-```
-
-If npm requires staged-release approval, complete it on npm before registry
-verification. A timeout does not prove publication failed: inspect the registry
-before retrying. Registry integrity must match the tested archive.
-
-## Subsequent trusted publication
+## Publish through GitHub
 
 Configure the package's npm Trusted Publisher for GitHub Actions:
 
@@ -47,3 +36,9 @@ archive via OIDC, then checks registry integrity. It uses no stored npm token.
 After verification, record the package version, source commit and evidence in
 progress, and tag the corresponding source revision. Publishing Wallet does not
 establish User compatibility, cross-platform acceptance or real-funds readiness.
+
+A failed or timed-out verification does not prove publication failed. Check the
+registry and match archive integrity before retrying. Never republish different
+bytes under an already published version. If npm reports Pending validation, a
+successful publication through this configured workflow must validate that trust;
+a local token publication does not verify the GitHub publisher configuration.

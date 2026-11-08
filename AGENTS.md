@@ -97,6 +97,6 @@ Public package entries are `src/client.ts`, `src/local.ts` and
 administration. Do not expose generic signing or internal keystore/file helpers to
 avoid adapting a consumer. Verify artifact changes with `pnpm test:package`; it
 installs a tarball outside the checkout and exercises real IPC/process behavior.
-Keep tests, fixtures, keys and source maps out of the package. Publication scope: the first 0.3.0 release and the maintainer-requested 0.3.1
-running-version/dependency follow-up. Use the verified artifact and release workflow;
+Keep tests, fixtures, keys and source maps out of the package. Publication scope includes the maintainer-requested 0.3.2 documentation/release
+follow-up to validate the configured GitHub Trusted Publisher. Use the verified artifact and release workflow;
 subsequent releases require maintainer authorization.

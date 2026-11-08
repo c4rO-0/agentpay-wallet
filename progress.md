@@ -1,5 +1,28 @@
 # AgentPay Wallet progress
 
+## Wallet 0.3.2 release review — 2026-11-08
+
+Prepared a documentation patch release: npm installation, public entries and User
+pairing guides now describe the available integration. Signing, IPC permissions,
+Policy handling and storage behavior are unchanged. TypeScript build and all 30 current behavioral checks
+passed. The 0.3.2 tarball installed outside the checkout from public npm dependencies;
+public TypeScript imports, CLI, IPC permissions, unlock and restart checks passed.
+No live chain, payment or participant service was accessed.
+
+Next: publish 0.3.2 with GitHub OIDC, confirm registry integrity and current npm
+Trusted Publisher validation, then let User pin this reviewed version. The historical
+0.3.1 run below does not verify a newly configured Trusted Publisher.
+
+## Wallet 0.3.1 published — 2026-11-08
+
+[OIDC publication](https://github.com/c4rO-0/agentpay-wallet/actions/runs/42440112081)
+succeeded from `7e4d4fa`. Public npm metadata confirms Wallet 0.3.1 and Protocol
+0.14.3; User 0.3.1 now pins this Wallet. Trusted publishing is validated. Earlier
+candidate sections below are historical; participant upgrade acceptance remains open.
+
+> Historical checkpoints below: publication-pending and next-step labels are
+> superseded by the verified 0.3.1 release above and current TODO.
+
 ## Running software reporting candidate — 2026-11-07
 
 Wallet 0.3.1 adds read-only `status.software`: package name/version, local reporting

@@ -5,8 +5,9 @@ Wallet keeps the Session Key and accepts only bounded operations over authentica
 local IPC. The Safe owner wallet approves on-chain authority separately. Protocol
 owns canonical formats and contracts; Wallet consumes the published npm package
 `@c4roa0/agentpay-protocol`. Its exact version is pinned in `package.json`, with
-integrity recorded in `pnpm-lock.yaml`. User 0.2.0 enforces its old source pair and does not yet accept Wallet 0.3.0.
-The public-package integration is tracked separately.
+integrity recorded in `pnpm-lock.yaml`. User consumes the public npm entries and pins
+an exact reviewed Wallet version. Installed and running software reports are checked
+separately; neither report grants spending authority.
 
 ## Source map
 

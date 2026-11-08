@@ -1,6 +1,12 @@
 # Changelog
 
-## 0.3.1 — unreleased
+## 0.3.2 — release candidate
+
+- Align installation and integration guides with the published npm User/Wallet flow.
+- Clarify exact dependency pairing and service restart responsibilities.
+- No signing, capability, Policy, storage or wire-format changes.
+
+## 0.3.1 — 2026-11-08
 
 - Report running software versions through read-only status for client repair checks.
 - Report the resolved Protocol package version, including nested npm installations.

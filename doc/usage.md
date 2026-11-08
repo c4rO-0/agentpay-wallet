@@ -40,14 +40,19 @@ state, not a fresh verification of balance, expiry or revocation on the chain.
 
 ## Guided AgentPay use
 
-The current User installer requires its matching Wallet 0.2.0 source revision;
-it does not yet accept this 0.3.0 npm candidate. For that source pair, clone Wallet
-into `wallet` beside `user`. Run User's installation
-command to prepare both; see
-[AgentPay User installation](https://github.com/c4rO-0/agentpay-user/blob/main/doc/runbooks/user-onboarding.md).
-Keep User data separate from both source folders. User manages background services,
-owner approval, renewal, backup restoration and Market connections. Wallet remains
-the signing boundary. User installation from npm is planned, not yet available.
+Install AgentPay User for guided setup; npm installs its matching Wallet dependency:
+
+```sh
+npm install --global @c4roa0/agentpay-user
+agentpay install --market https://YOUR_MARKET_ORIGIN
+```
+
+Use your platform's Market address. No separate Wallet checkout is required.
+See [AgentPay User installation](https://github.com/c4rO-0/agentpay-user#install-with-npm).
+User manages background services, owner approval, renewal, backup restoration and
+Market connections. Wallet remains the signing boundary. Keep User data outside
+program installation folders. Use the User-managed Wallet version instead of
+upgrading that dependency independently.
 
 External Safe owner signing through User has private single-owner Anvil evidence.
 That does not establish live-network, multisig or every headless environment's
@@ -55,15 +60,15 @@ acceptance. Test signers are restricted tools, never a substitute for owner appr
 
 ## Identity and recovery
 
-Use `./run wallet restore` from User for existing-key/Policy restoration. Wallet
+Use `agentpay wallet restore` from an npm User installation for existing-key/Policy restoration. Wallet
 validates encrypted backups, requires actual key possession and reads original
 Policy facts independently. Recovery never replenishes budget or extends expiry.
 An existing different identity is preserved rather than overwritten. Keep the
 full local data directory to retain request recovery records; a Policy ID alone
 cannot recover a lost Session Key.
 
-Use User's `./run policy renew` for deliberate replacement and
-`./run policy revoke` for owner-approved revocation. Wallet verifies migration
+Use User's `agentpay policy renew` for deliberate replacement and
+`agentpay policy revoke` for owner-approved revocation. Wallet verifies migration
 before switching bindings and retains original scopes. Do not delete binding
 files or reinitialize a key to solve an upgrade mismatch.
 

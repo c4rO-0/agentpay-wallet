@@ -15,7 +15,7 @@ payment and Order-support operations, not arbitrary message or transaction signi
 Wallet package and guides you through setup; no separate Wallet installation is needed:
 
 ```sh
-npm install --global @c4roa0/agentpay-user@0.3.0
+npm install --global @c4roa0/agentpay-user
 agentpay install --market https://YOUR_MARKET_ORIGIN
 ```
 
@@ -27,7 +27,7 @@ Replace the Market URL with your platform's address. See the
 For developers integrating Wallet into another application, install it separately:
 
 ```sh
-npm install --global @c4roa0/agentpay-wallet@0.3.0
+npm install --global @c4roa0/agentpay-wallet
 agentpay-wallet --help
 ```
 
@@ -66,7 +66,7 @@ service operation, authorization boundaries and recovery.
 Install Wallet as a project dependency to use its public client:
 
 ```bash
-npm install @c4roa0/agentpay-wallet@0.3.0
+npm install @c4roa0/agentpay-wallet
 ```
 
 - [Public interfaces](https://github.com/c4rO-0/agentpay-wallet/blob/main/doc/reference/public-package.md): client, trusted local administration and process launcher.

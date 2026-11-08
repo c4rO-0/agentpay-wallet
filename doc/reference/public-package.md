@@ -1,8 +1,9 @@
 # Public Wallet package
 
-The 0.3.0 package contains compiled JavaScript and TypeScript
+The package contains compiled JavaScript and TypeScript
 declarations; installation does not create keys, start services or grant permission.
-User 0.2.0 does not support this package; its integration is tracked separately.
+AgentPay User installs its exact reviewed Wallet dependency automatically. Applications
+that manage Wallet themselves should pin and verify their own supported version.
 
 ## Integration entries
 
@@ -38,8 +39,9 @@ There is no generic signing method. See [IPC reference](local-ipc.md).
 
 Do not import `dist/src`, `lib` internals, keystore helpers or private file helpers.
 Keep private data outside the package directory. Upgrading files does not upgrade
-an already running process; User's planned integration must restart the service and
-check compatibility without replacing keys, Policies or Order history.
+an already running process. User checks installed/running compatibility and provides
+its repair flow to rebuild or restart as needed, preserving keys, Policies and Order
+history. A standalone integration must manage that lifecycle itself.
 
 ## Package verification
 
