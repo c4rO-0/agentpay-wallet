@@ -1,11 +1,17 @@
 # Wallet TODO
 
+## Tag-triggered publication
+
+- [x] Use matching `vX.Y.Z` tags for npm publication; retain verification gates.
+- [x] Owner confirmed release tags allowed in the GitHub `npm-publish` environment.
+- [ ] Verify the first tag-triggered OIDC publication and registry integrity.
+
 ## Wallet 0.3.2 publication
 
 - [x] Review package entries, running-version report, publishing workflow and current guides.
 - [x] Remove obsolete source-only and integration-pending instructions.
 - [x] Verify the 0.3.2 standalone archive and all 30 current behavioral checks.
-- [ ] Publish via GitHub OIDC and verify registry integrity/current Trusted Publisher.
+- [x] Wallet 0.3.2 OIDC run 42490583169 succeeded; public integrity/provenance verified.
 - [ ] Update User to the published exact Wallet dependency and verify the pair.
 
 ## Software reporting release — 2026-11-07

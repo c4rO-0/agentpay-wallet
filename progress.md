@@ -1,5 +1,23 @@
 # AgentPay Wallet progress
 
+## Wallet 0.3.2 published — 2026-11-08
+
+GitHub OIDC run 42490583169 succeeded from `20a6127`. Public npm 0.3.2 integrity
+matches the independently verified archive and exposes provenance. Tag `v0.3.2`
+identifies that original release commit; it uses the previous manual workflow and
+will not republish. Future release tags use the new tag-triggered workflow.
+User 0.3.2 pairing verification is the next step.
+
+## Tag-triggered publication — 2026-11-08
+
+Wallet, Protocol and User release workflows now run on pushed `vX.Y.Z` tags.
+Each validates its package version, runs existing verification, publishes with
+OIDC and checks registry integrity. Branch pushes do not publish. No tag was
+pushed or npm version published for this workflow change. Owner confirmed `v*` tags allowed in the GitHub
+`npm-publish` environment; npm trust fields remain unchanged. YAML/shell checks and six executable tag/version guard cases passed
+per repository (matching version, mismatch, branch, prerelease, leading zero and
+newline rejection). Actual GitHub/OIDC execution remains pending.
+
 ## Wallet 0.3.2 release review — 2026-11-08
 
 Prepared a documentation patch release: npm installation, public entries and User

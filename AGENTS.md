@@ -100,3 +100,13 @@ installs a tarball outside the checkout and exercises real IPC/process behavior.
 Keep tests, fixtures, keys and source maps out of the package. Publication scope includes the maintainer-requested 0.3.2 documentation/release
 follow-up to validate the configured GitHub Trusted Publisher. Use the verified artifact and release workflow;
 subsequent releases require maintainer authorization.
+
+## Tag-triggered npm releases
+
+Package version `X.Y.Z` is released by pushing tag `vX.Y.Z` at the exact reviewed
+source commit. `.github/workflows/publish.yml` validates this match, verifies the
+package, publishes through OIDC and checks registry integrity. Pushing a release
+tag is a publication action and needs maintainer authorization; ordinary branch
+pushes do not publish. Never move an existing release tag. Verify registry state
+before rerunning a failed publication. The `npm-publish` environment must allow
+release tags (for example `v*`), not only the main branch.
