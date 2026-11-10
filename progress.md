@@ -1,5 +1,13 @@
 # AgentPay Wallet progress
 
+## Maintenance guidance — 2026-11-10
+
+Added explicit maintenance guidance without automatic write retries or replacement
+purchases. Controlled HTTP/IPC tests verify that retry retains original request
+identifiers. This is source verification, not live financial acceptance. Changes
+have not been published to npm.
+
+
 ## Wallet 0.3.2 published — 2026-11-08
 
 GitHub OIDC run 42490583169 succeeded from `20a6127`. Public npm 0.3.2 integrity

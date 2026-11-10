@@ -70,6 +70,10 @@ test("real Wallet IPC preserves cancellation identity across server recreation; 
     for await (const chunk of req) body += chunk;
     captured = JSON.parse(body);
     calls++;
+    if (mode === "maintenance") {
+      res.writeHead(503,{"content-type":"application/json","retry-after":"60"});
+      res.end(JSON.stringify({ok:false,error:{code:"SERVICE_MAINTENANCE",message:"maintenance"}}));return;
+    }
     if (mode === "accepted") {
       res.writeHead(409);
       res.end(
@@ -186,6 +190,15 @@ test("real Wallet IPC preserves cancellation identity across server recreation; 
         callWallet(server.socketPath, agent, "cancelSettlementOrder", params),
         (e: any) => e.code === "SETTLEMENT_RESPONSE_INVALID",
       );
+    mode = "maintenance";
+    const beforeMaintenance=calls;
+    await assert.rejects(callWallet(server.socketPath,agent,"cancelSettlementOrder",params),
+      (e:any)=>e.code==="SERVICE_MAINTENANCE"&&e.settlementCode==="SERVICE_MAINTENANCE"&&e.message.includes("same request"));
+    assert.equal(calls,beforeMaintenance+1,"maintenance must not automatically replay a write");
+    assert.deepEqual(captured.payload,{orderId,cancellationId});
+    mode="valid";
+    await callWallet(server.socketPath,agent,"cancelSettlementOrder",params);
+    assert.deepEqual(captured.payload,{orderId,cancellationId},"explicit retry keeps original identity");
     mode = "accepted";
     await assert.rejects(
       callWallet(server.socketPath, agent, "cancelSettlementOrder", params),

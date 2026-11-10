@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.3 — 2026-11-10
+
+- Report service maintenance clearly through the Wallet client and IPC.
+- Preserve original Order and cancellation identifiers; maintenance does not trigger automatic write retries.
+- No signing, Policy, capability or storage changes.
+
 ## 0.3.2 — release candidate
 
 - Align installation and integration guides with the published npm User/Wallet flow.

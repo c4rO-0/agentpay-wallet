@@ -36,6 +36,7 @@ const SETTLEMENT_ERROR_MAP: Readonly<Record<string, string>> = Object.freeze({
   SERVICE_RESTRICTED: "SERVICE_RESTRICTED",
   BUYER_RESTRICTED: "BUYER_RESTRICTED",
   RESTRICTION_STATE_UNAVAILABLE: "RESTRICTION_STATE_UNAVAILABLE",
+  SERVICE_MAINTENANCE: "SERVICE_MAINTENANCE",
   NEW_ORDERS_PAUSED: "NEW_ORDERS_PAUSED",
   ORDER_ALREADY_ACCEPTED: "ORDER_ALREADY_ACCEPTED",
   ORDER_CANCEL_FORBIDDEN: "ORDER_CANCEL_FORBIDDEN",
@@ -215,7 +216,9 @@ export async function callSettlementWalletApi(
         sourceCode && Object.hasOwn(SETTLEMENT_ERROR_MAP, sourceCode)
           ? (SETTLEMENT_ERROR_MAP[sourceCode] ?? "SETTLEMENT_REQUEST_REJECTED")
           : "SETTLEMENT_REQUEST_REJECTED",
-        String(failure.message || "Settlement rejected request"),
+        sourceCode === "SERVICE_MAINTENANCE"
+          ? "The transaction service is under maintenance. Try the same request later."
+          : String(failure.message || "Settlement rejected request"),
         sourceCode,
       );
     }
