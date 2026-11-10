@@ -1,11 +1,18 @@
 # AgentPay Wallet progress
 
+## Wallet 0.3.3 published — 2026-11-10
+
+Tag v0.3.3 triggered the existing OIDC workflow successfully. Public npm metadata
+and SHA-512 integrity match the independently verified archive. All 30 behavior
+tests and standalone installation/IPC checks passed. This publishes client
+maintenance guidance; it does not restart or upgrade any installed Wallet.
+
+
 ## Maintenance guidance — 2026-11-10
 
 Added explicit maintenance guidance without automatic write retries or replacement
 purchases. Controlled HTTP/IPC tests verify that retry retains original request
-identifiers. This is source verification, not live financial acceptance. Changes
-have not been published to npm.
+identifiers. This is source verification, not live financial acceptance. These changes were subsequently published in 0.3.3; see the release record above.
 
 
 ## Wallet 0.3.2 published — 2026-11-08
