@@ -129,3 +129,10 @@ this control. Public Market status uses Suspended and excludes private operation
 reasons; after unblock, normal readiness must still pass. Unknown status requires
 fresh checks. Source verification is complete; current progress distinguishes
 deployment and participant acceptance from source tests.
+
+### Chain RPC unavailable
+
+`CHAIN_RPC_UNAVAILABLE` means Wallet could not complete a read through its configured
+blockchain RPC. Check the network and RPC service. If the address uses an SSH tunnel,
+keep that tunnel running. Retry the original request after connectivity returns;
+do not create a replacement purchase or Policy to fix a connection failure.

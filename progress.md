@@ -1,5 +1,15 @@
 # AgentPay Wallet progress
 
+## Chain RPC error guidance — 2026-11-12
+
+Unreleased: read-only Policy RPC operations classify recognized transport failures
+as CHAIN_RPC_UNAVAILABLE. IPC returns a fixed message without URLs, nested errors or
+request contents. Policy/chain/delegate checks and signing rules remain unchanged;
+unknown exceptions remain redacted. Controlled RPC disconnect and authenticated
+Wallet IPC verification passed, along with migration regressions and type checks.
+No live Wallet, Policy or Order was modified. User must consume a newly published
+Wallet version before participants receive the new error category.
+
 ## Wallet 0.3.3 published — 2026-11-10
 
 Tag v0.3.3 triggered the existing OIDC workflow successfully. Public npm metadata

@@ -9,7 +9,8 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { createServer } from "node:http";
 import { Interface } from "ethers";
-import { Phase0Wallet, POLICY_ABI } from "../src/index.js";
+import { publicError } from "../src/errors.js";
+import { Phase0Wallet, POLICY_ABI, initializeCapabilities, startWalletServer, readCapability, callWallet } from "../src/index.js";
 const addr = (n: number) => "0x" + n.toString(16).padStart(40, "0"),
   id = (n: number) => "0x" + n.toString(16).padStart(64, "0");
 test("historical reads verify original delegate and scope without rebinding or permitting writes", async () => {
@@ -133,6 +134,23 @@ test("historical reads verify original delegate and scope without rebinding or p
     await assert.rejects(wallet.signHistoricalOrderRead(request, scope, 100), {
       code: "MIGRATION_CHAIN_MISMATCH",
     });
+    await new Promise<void>((r) => rpc.close(() => r()));
+    await assert.rejects(wallet.signHistoricalOrderRead({...request,requestNonce:id(99)},scope,100), error => {
+      const visible=publicError(error);
+      assert.equal(visible.code,"CHAIN_RPC_UNAVAILABLE");
+      assert.match(visible.message,/RPC/);
+      assert.doesNotMatch(visible.message,/127\.0\.0\.1|http:|requestNonce/);
+      return true;
+    });
+    await initializeCapabilities(dir);
+    const ipc=await startWalletServer(dir);
+    try {
+      await callWallet(ipc.socketPath,await readCapability(dir,"admin"),"unlock",{password:"historical-test-password"});
+      await assert.rejects(callWallet(ipc.socketPath,await readCapability(dir,"agent"),"readSettlementOrder",{
+        settlementUrl:"https://unused.invalid/settlement",orderId:id(7),recoveryScope:scope,
+      }),{code:"CHAIN_RPC_UNAVAILABLE"});
+    } finally {await ipc.close();}
+    assert.equal(await readFile(join(dir,"policy.json"),"utf8"),before);
   } finally {
     await new Promise<void>((r) => rpc.close(() => r()));
     await rm(dir, { recursive: true, force: true });

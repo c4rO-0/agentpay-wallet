@@ -210,6 +210,20 @@ export async function withMigrationRpc<T>(
     if (BigInt(await rpc.send("eth_chainId", [])) !== BigInt(policy.chainId))
       fail("MIGRATION_CHAIN_MISMATCH");
     return await run(rpc);
+  } catch (error) {
+    // Ethers may wrap transport failures. Expose only a reviewed category, never
+    // its raw RPC URL, request body or nested exception message over IPC.
+    const transport = new Set(["ECONNREFUSED", "ECONNRESET", "ENOTFOUND", "EAI_AGAIN", "ETIMEDOUT", "ENETUNREACH", "EHOSTUNREACH", "NETWORK_ERROR", "TIMEOUT", "SERVER_ERROR"]);
+    const pending: unknown[] = [error];
+    for (let i = 0; i < pending.length && i < 12; i++) {
+      const item = pending[i];
+      if (!item || typeof item !== "object") continue;
+      const e = item as {code?: unknown; cause?: unknown; error?: unknown; info?: unknown};
+      if (!(error instanceof WalletError) && typeof e.code === "string" && transport.has(e.code))
+        throw new WalletError("CHAIN_RPC_UNAVAILABLE", "Cannot connect to the configured blockchain RPC. Restore the network connection; if using a local SSH tunnel, keep it running, then retry the same request.");
+      pending.push(e.cause, e.error, e.info);
+    }
+    throw error;
   } finally {
     rpc.destroy();
   }
