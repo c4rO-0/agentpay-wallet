@@ -1,7 +1,7 @@
 # Wallet TODO
 
 - [x] Classify read-only Policy RPC transport failures safely and verify through Wallet IPC; preserve historical authorization boundaries.
-- [ ] Publish the RPC guidance patch and verify the registry package before User changes its exact Wallet dependency.
+- [x] Publish RPC guidance as Wallet 0.3.4; registry integrity verified before User pins it.
 
 - [x] Preserve maintenance error guidance and original request identity; controlled HTTP/IPC verification (2026-11-10).
 - [x] Publish maintenance guidance as Wallet 0.3.3 through tag-triggered OIDC; registry identity/integrity verified (2026-11-10).

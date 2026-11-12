@@ -2,13 +2,16 @@
 
 ## Chain RPC error guidance — 2026-11-12
 
-Unreleased: read-only Policy RPC operations classify recognized transport failures
+Published as `v0.3.4` at `947bb1d`. [Release workflow](https://github.com/c4rO-0/agentpay-wallet/actions/runs/43191029105)
+passed behavior, standalone package and registry integrity checks.
+
+Read-only Policy RPC operations classify recognized transport failures
 as CHAIN_RPC_UNAVAILABLE. IPC returns a fixed message without URLs, nested errors or
 request contents. Policy/chain/delegate checks and signing rules remain unchanged;
 unknown exceptions remain redacted. Controlled RPC disconnect and authenticated
 Wallet IPC verification passed, along with migration regressions and type checks.
-No live Wallet, Policy or Order was modified. User must consume a newly published
-Wallet version before participants receive the new error category.
+No live Wallet, Policy or Order was modified. User 0.3.12 pins Wallet 0.3.4; installed clients receive the error category after
+updating and restarting their services.
 
 ## Wallet 0.3.3 published — 2026-11-10
 
