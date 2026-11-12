@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.4 — 2026-11-12
+
+- Explain blockchain RPC connection failures during Policy-backed reads without exposing request details.
+- Keep original Order identity and authorization checks unchanged.
+
 ## 0.3.3 — 2026-11-10
 
 - Report service maintenance clearly through the Wallet client and IPC.
