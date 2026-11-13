@@ -1,5 +1,11 @@
 # AgentPay Wallet progress
 
+## Wallet nickname validation — 2026-11-13
+
+Market connection proofs reject control, direction-override and selected hidden formatting characters, and enforce the existing normalized-name length limit before signing. Ordinary Unicode and emoji joiners remain supported. Focused proof and real local IPC tests passed; no live Market account or Policy was changed.
+Source changes only; deployment/package release remains pending.
+
+
 ## Chain RPC error guidance — 2026-11-12
 
 Published as `v0.3.4` at `947bb1d`. [Release workflow](https://github.com/c4rO-0/agentpay-wallet/actions/runs/43191029105)

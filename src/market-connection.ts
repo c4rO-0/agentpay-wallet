@@ -46,7 +46,8 @@ export function normalizeMarketConnection(input: unknown) {
     !v.label.trim() ||
     v.label !== v.label.trim() ||
     v.label.length > 64 ||
-    /[\u0000-\u001f\u007f]/.test(v.label) ||
+    v.label.normalize("NFKC").toLowerCase().length > 64 ||
+    /[\u0000-\u001f\u007f-\u009f\u061c\u200b\u200e\u200f\u2028-\u202e\u2060-\u206f\ufeff]/.test(v.label) ||
     !Number.isSafeInteger(v.expiresAtMs) ||
     Number(v.expiresAtMs) < 1
   )

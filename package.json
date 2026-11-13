@@ -1,6 +1,6 @@
 {
   "name": "@c4roa0/agentpay-wallet",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "type": "module",
   "bin": {
     "agentpay-wallet": "bin/agentpay-wallet.mjs"

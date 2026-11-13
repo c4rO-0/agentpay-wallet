@@ -56,6 +56,10 @@ test("connection proof has fixed fields, purpose, nickname and bounded expiry", 
     { label: "\nWork" },
     { label: "" },
     { label: "a".repeat(65) },
+    { label: "PC\u202e" },
+    { label: "PC\u0085" },
+    { label: "PC\u200b" },
+    { label: "ﷺ".repeat(10) },
     { accountId: "bad\naccount" },
     { nonce: "bad" },
     { action: "delivery.confirm" },
@@ -182,4 +186,9 @@ test("admin connects through real IPC with a verifiable proof; Agent cannot disc
     await server?.close();
     await rm(dir, { recursive: true, force: true });
   }
+});
+
+test("Wallet nicknames retain multilingual text and emoji joiners", () => {
+  for(const label of ["工作电脑", "Home 👩‍💻", "a".repeat(64)])
+    assert.equal(normalizeMarketConnection({...payload,label}).label,label);
 });

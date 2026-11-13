@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.5 — 2026-11-13
+
+- Validate Market nicknames before signing, including normalized length and unsafe formatting characters.
+- Preserve multilingual names and emoji joiners; no payment authority changes.
+
 ## 0.3.4 — 2026-11-12
 
 - Explain blockchain RPC connection failures during Policy-backed reads without exposing request details.
