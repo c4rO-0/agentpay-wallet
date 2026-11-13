@@ -1,7 +1,8 @@
 # Wallet TODO
 
 - [x] Align Wallet nickname validation and actionable rejection handling; focused regression checks passed.
-- [ ] Release/deploy nickname changes and verify the participant naming flow.
+- [x] Publish nickname fixes and independently verify npm archive integrity.
+- [ ] Verify participant naming after the separate Market deployment.
 
 - [x] Classify read-only Policy RPC transport failures safely and verify through Wallet IPC; preserve historical authorization boundaries.
 - [x] Publish RPC guidance as Wallet 0.3.4; registry integrity verified before User pins it.

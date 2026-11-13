@@ -1,5 +1,13 @@
 # AgentPay Wallet progress
 
+## Published 0.3.5 — 2026-11-13
+
+Release tag v0.3.5 identifies 73d5d302c707213c9e9e84566a4a1ad44727f6d3.
+GitHub publication run 43441839025 passed publication checks; public npm
+archive integrity was independently verified against the local release artifact.
+This publishes the nickname fix; Market deployment remains separate.
+
+
 ## Wallet nickname validation — 2026-11-13
 
 Market connection proofs reject control, direction-override and selected hidden formatting characters, and enforce the existing normalized-name length limit before signing. Ordinary Unicode and emoji joiners remain supported. Focused proof and real local IPC tests passed; no live Market account or Policy was changed.
