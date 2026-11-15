@@ -1,6 +1,10 @@
 /**
  * Read-only RPC inspection and exact owner-operation plans for migration.
  * This module never holds an owner key or sends the owner transactions.
+ * previewMigration derives a frozen plan from one chain snapshot; inspectMigration
+ * compares later snapshots with it and returns only outstanding owner calls.
+ * refreshMigration can reduce the carried budget before destination creation.
+ * wallet.ts owns journal persistence and the eventual local binding switch.
  */
 import {
   Contract,

@@ -2,7 +2,7 @@
 
 This describes the current source interface for trusted local integrators. It is
 not a new wire version or a promise that internal module paths are a released SDK.
-The npm candidate entry points are described in [public package](public-package.md).
+The released npm entry points are described in [public package](public-package.md).
 
 ## Transport and capabilities
 
@@ -12,8 +12,19 @@ Agent/admin token files. The client supplies one token on each request; the serv
 selects the matching role and checks its method allowlist before dispatch.
 
 Current framing is one newline-terminated JSON request per connection, followed by
-one response and connection close. Requests are bounded to 64 KiB. The exported
-`callWallet` constructs requests and maps error responses to `WalletError`.
+one response and connection close. Requests are bounded to 64 KiB; idle request
+framing is limited to 10 seconds. The exported `callWallet` constructs requests and
+maps error responses to `WalletError`. Its response limit is 8 MiB and default
+operation deadline is 120 seconds. A fifth argument `{ timeoutMs }` can select
+1–300000 milliseconds. It never automatically retries. A timeout or disconnection
+does not prove the operation had no effect; inspect and resume the original request.
+
+Only one service can own a Wallet data directory. `WALLET_ALREADY_RUNNING` means
+use or stop that service before restarting. Do not delete `service-owner.lock`;
+the OS releases ownership when the process exits. `LOCK_UNAVAILABLE` means the
+native locking dependency could not load; reinstall the matching package.
+`AUDIT_UNAVAILABLE` means audit persistence failed; inspect storage permissions and
+space, and check the original operation before retrying.
 
 | Role | Operations |
 | --- | --- |
@@ -27,7 +38,7 @@ a Wallet to a Market account. Neither role has a generic signing or transaction 
 
 ## Read local status
 
-After installing the candidate tarball and starting an initialized service, a trusted local program can use:
+After installing the package and starting an initialized service, a trusted local program can use:
 
 ```js
 import { join } from 'node:path';

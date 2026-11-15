@@ -5,6 +5,7 @@
 import {
   AbiCoder,
   Contract,
+  FetchRequest,
   getAddress,
   isHexString,
   JsonRpcProvider,
@@ -163,10 +164,22 @@ export async function assertRegistryQualification(
   input: unknown,
 ): Promise<void> {
   const value = input as Record<string, unknown>;
-  const provider = new JsonRpcProvider(policy.registryRpcUrl, policy.chainId, {
-    staticNetwork: true,
+  const connection = new FetchRequest(policy.registryRpcUrl);
+  connection.timeout = 10_000;
+  const provider = new JsonRpcProvider(connection, undefined, {
+    batchMaxCount: 1,
+    cacheTimeout: -1,
   });
   try {
+    // A configured chain ID is not evidence of the RPC's identity. Check before
+    // querying qualification; Module redemption still performs its own check.
+    if (
+      BigInt(await provider.send("eth_chainId", [])) !== BigInt(policy.chainId)
+    )
+      throw new WalletError(
+        "REGISTRY_CHAIN_MISMATCH",
+        "Registry RPC is on a different network. Check the saved RPC and chain before retrying.",
+      );
     const registry = new Contract(
       policy.registry,
       [

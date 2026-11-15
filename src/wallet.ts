@@ -1,6 +1,11 @@
 /**
  * Wallet state coordinator. Keep signing, local binding changes and restart
  * journals consistent; upstream payment success is not inferred here.
+ *
+ * Reading order: open() reconstructs the binding/journals; admin methods below
+ * restore or replace that binding; sign* methods consume its stable snapshot.
+ * Migration planning/RPC reads live in policy-migration.ts, encryption in
+ * keystore.ts, and role enforcement in ipc.ts. No method here sends owner calls.
  */
 import { walletSoftware } from "./software.js";
 import { validateRenewal } from "./policy-renewal.js";
@@ -95,6 +100,8 @@ export class Phase0Wallet {
         "bound policy delegate does not match the local session key",
       );
     }
+    // A crash can leave policy.json on either side of a pending transition.
+    // Accept only that journal's source/destination; pending state still fences signing.
     const migrationPath = join(dataDir, "policy-migration.json");
     if (await exists(migrationPath)) {
       await assertPrivateFile(migrationPath);
@@ -282,6 +289,9 @@ export class Phase0Wallet {
     }
   }
 
+  // Renewal flow: verify replacement on-chain -> verify the old authority ended
+  // -> persist pending intent -> archive source -> publish binding -> complete.
+  // A retry after publishing policy.json takes the same-policy completion branch.
   async renewPolicy(input: unknown) {
     if (this.#migrationBusy || this.#migration?.state === "pending")
       fail("POLICY_MIGRATION_PENDING");
@@ -578,6 +588,9 @@ export class Phase0Wallet {
     }
   }
 
+  // Payment flow: construct from the saved Policy, query qualification, recheck
+  // the binding after RPC, then sign. Neither this signature nor audit success
+  // proves funding; Module/Settlement enforce redemption and durable replay rules.
   async signAgentPayCommitment(
     input: unknown,
     nowSeconds = Math.floor(Date.now() / 1000),
@@ -636,8 +649,10 @@ export class Phase0Wallet {
     if (
       Object.keys(s).sort().join(",") !== "module,network,policyId,safe" ||
       s.network !== `eip155:${current.chainId}` ||
-      String(s.module).toLowerCase() !== current.module.toLowerCase() ||
-      String(s.safe).toLowerCase() !== current.safe.toLowerCase() ||
+      typeof s.module !== "string" ||
+      s.module.toLowerCase() !== current.module.toLowerCase() ||
+      typeof s.safe !== "string" ||
+      s.safe.toLowerCase() !== current.safe.toLowerCase() ||
       typeof s.policyId !== "string" ||
       !/^0x[0-9a-f]{64}$/i.test(s.policyId)
     )
@@ -699,6 +714,8 @@ export class Phase0Wallet {
     };
   }
 
+  // Order support has its own domain/action allowlist. It shares the binding
+  // fence and key, but must never be substituted for a payment commitment.
   async signSettlementRequest(
     input: unknown,
     nowSeconds = Math.floor(Date.now() / 1000),

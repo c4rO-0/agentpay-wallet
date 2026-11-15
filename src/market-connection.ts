@@ -20,7 +20,16 @@ export function normalizeMarketConnection(input: unknown) {
       "INVALID_FIELDS",
       "Invalid Market connection challenge",
     );
-  const origin = new URL(String(v.marketOrigin));
+  let origin: URL;
+  try {
+    if (typeof v.marketOrigin !== "string") throw Error();
+    origin = new URL(v.marketOrigin);
+  } catch {
+    throw new WalletError(
+      "INVALID_FIELDS",
+      "Market address must be a valid HTTPS origin, or a loopback rehearsal origin.",
+    );
+  }
   if (
     origin.origin !== v.marketOrigin ||
     origin.username ||
@@ -47,7 +56,9 @@ export function normalizeMarketConnection(input: unknown) {
     v.label !== v.label.trim() ||
     v.label.length > 64 ||
     v.label.normalize("NFKC").toLowerCase().length > 64 ||
-    /[\u0000-\u001f\u007f-\u009f\u061c\u200b\u200e\u200f\u2028-\u202e\u2060-\u206f\ufeff]/.test(v.label) ||
+    /[\u0000-\u001f\u007f-\u009f\u061c\u200b\u200e\u200f\u2028-\u202e\u2060-\u206f\ufeff]/.test(
+      v.label,
+    ) ||
     !Number.isSafeInteger(v.expiresAtMs) ||
     Number(v.expiresAtMs) < 1
   )

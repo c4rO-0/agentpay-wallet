@@ -24,6 +24,7 @@ node --test dist/test/policy-renewal.test.js
 | Area | Files | What they demonstrate |
 | --- | --- | --- |
 | Key and process lifecycle | `lifecycle.test.ts` | Locked startup, real process restart, bounded signing, unsafe input denial and destruction |
+| Service failure boundaries | `service-boundaries.test.ts` | Pending unlock cancellation, competing real processes, forced-exit recovery, audit failures and IPC bounds |
 | Authorization changes | `policy-restore.test.ts`, `policy-renewal.test.ts`, `policy-migration.test.ts` | Restore the original key/Policy; replace permission; migrate deployment without silently broadening authority; recover local interrupted transitions |
 | Historical access | `historical-order-read.test.ts` | Verify original scope without rebinding or allowing new purchases |
 | Market connection | `market-connection.test.ts` | Canonical short-lived proofs and denial through the Agent capability |

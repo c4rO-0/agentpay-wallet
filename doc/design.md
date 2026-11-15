@@ -47,6 +47,6 @@ separate decisions. See [identity](reference/wallet-identity.md) and
 
 Use established keystore/Ethereum primitives rather than custom cryptography.
 Preserve versioned fields, canonical order and units in readability changes. Source
-exports are trusted library entry points; the distributed client contract is still
-[planned](plans/user-wallet-distribution.md). The current platform baseline is Linux;
+exports are trusted library entry points; the distributed client contract is documented in
+[public package entries](reference/public-package.md). The current platform baseline is Linux;
 macOS startup integration remains deferred. No private-test outcome authorizes real funds.

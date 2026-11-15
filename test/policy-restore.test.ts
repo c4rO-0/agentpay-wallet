@@ -185,6 +185,9 @@ test("key import verifies encrypted backup, refuses overwrites and unsafe paths;
     const key = join(dir, "source", "session.keystore.json");
     const originalBytes = await readFile(key, "utf8");
     const restored = join(dir, "restored");
+    // A failed early start leaves only the persistent ownership file. It must
+    // not prevent later key import, but import still acquires that same lock.
+    await assert.rejects(startWalletServer(restored), { code: "KEY_MISSING" });
     await assert.rejects(
       importSessionKey(restored, {
         file: key,

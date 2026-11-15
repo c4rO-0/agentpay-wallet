@@ -3,38 +3,55 @@
  * their own exclusivity/directory-sync requirements at the calling boundary.
  */
 import { constants } from "node:fs";
-import {
-  access,
-  chmod,
-  lstat,
-  mkdir,
-  open,
-  rename,
-  unlink,
-} from "node:fs/promises";
+import { access, lstat, mkdir, open, rename, unlink } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { randomBytes } from "node:crypto";
 import { WalletError } from "./errors.js";
 
 export async function ensurePrivateDirectory(path: string): Promise<void> {
   await mkdir(path, { recursive: true, mode: 0o700 });
-  await chmod(path, 0o700);
   const info = await lstat(path);
   if (
     !info.isDirectory() ||
     info.isSymbolicLink() ||
-    (info.mode & 0o077) !== 0
+    info.uid !== process.getuid?.()
   ) {
     throw new WalletError(
       "UNSAFE_DIRECTORY",
-      "wallet directory must be a private directory",
+      "Wallet directory must be owned by this user and cannot be a symbolic link.",
     );
+  }
+  // Inspect before chmod, then operate on the opened directory rather than a
+  // symlink target. Same-user malicious replacement is not an OS sandbox boundary.
+  const handle = await open(
+    path,
+    constants.O_RDONLY | constants.O_DIRECTORY | constants.O_NOFOLLOW,
+  );
+  try {
+    const held = await handle.stat();
+    if (
+      held.dev !== info.dev ||
+      held.ino !== info.ino ||
+      held.uid !== process.getuid?.()
+    )
+      throw new WalletError(
+        "UNSAFE_DIRECTORY",
+        "Wallet directory changed during inspection.",
+      );
+    await handle.chmod(0o700);
+  } finally {
+    await handle.close();
   }
 }
 
 export async function assertPrivateFile(path: string): Promise<void> {
   const info = await lstat(path);
-  if (!info.isFile() || info.isSymbolicLink() || (info.mode & 0o077) !== 0) {
+  if (
+    !info.isFile() ||
+    info.isSymbolicLink() ||
+    info.uid !== process.getuid?.() ||
+    (info.mode & 0o077) !== 0
+  ) {
     throw new WalletError(
       "UNSAFE_FILE",
       "wallet file permissions are not private",
@@ -51,13 +68,16 @@ export async function atomicWritePrivate(
   const temporary = join(parent, `.tmp-${randomBytes(16).toString("hex")}`);
   const handle = await open(temporary, "wx", 0o600);
   try {
-    await handle.writeFile(content, { encoding: "utf8" });
-    await handle.sync();
+    try {
+      await handle.writeFile(content, { encoding: "utf8" });
+      await handle.sync();
+    } finally {
+      await handle.close();
+    }
+    await rename(temporary, path);
   } finally {
-    await handle.close();
+    await removeIfPresent(temporary);
   }
-  await rename(temporary, path);
-  await chmod(path, 0o600);
 }
 
 export async function removeIfPresent(path: string): Promise<void> {

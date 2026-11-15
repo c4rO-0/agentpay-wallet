@@ -1,6 +1,10 @@
 /**
  * Public Settlement API adapter only. Normalize signed payloads and bind
  * replies to the requested identity; no private server implementation belongs here.
+ * Flow: choose canonical action fields -> hash exactly those bytes -> ask Wallet
+ * for a bounded proof -> send once -> validate response identity and projections.
+ * HTTP success is not settlement evidence. The caller retains request/Order IDs
+ * for recovery when a response is lost, malformed or timed out.
  */
 import {
   normalizeDisputeCase,
@@ -113,13 +117,16 @@ export function normalizeWalletActionPayload(
   if (action === "order.read") {
     if (value.orderRequestId !== undefined) {
       if (Object.keys(value).sort().join(",") !== "orderRequestId")
-        throw new Error("Use exactly one Order selector");
+        throw new WalletError(
+          "INVALID_FIELDS",
+          "Use exactly one Order selector",
+        );
       return {
         orderRequestId: bytes32(value.orderRequestId, "orderRequestId"),
       };
     }
     if (Object.keys(value).sort().join(",") !== "orderId")
-      throw new Error("Use exactly one Order selector");
+      throw new WalletError("INVALID_FIELDS", "Use exactly one Order selector");
     return { orderId: bytes32(value.orderId, "orderId") };
   }
   throw new WalletError(
@@ -167,7 +174,9 @@ export async function callSettlementWalletApi(
       Object.keys(expected).sort().join(",") !==
         "module,network,policyId,safe" ||
       (["network", "module", "safe", "policyId"] as const).some(
-        (k) => String(expected[k]).toLowerCase() !== current[k].toLowerCase(),
+        (k) =>
+          typeof expected[k] !== "string" ||
+          expected[k].toLowerCase() !== current[k].toLowerCase(),
       )
     )
       throw new WalletError(
@@ -181,6 +190,8 @@ export async function callSettlementWalletApi(
     requestNonce: `0x${randomBytes(32).toString("hex")}`,
     validBefore: nowSeconds + 60,
   };
+  // Historical scope only changes the read proof. It never rebinds Wallet or
+  // grants order.prepare access to an old Policy.
   const authorization =
     recoveryScope === undefined
       ? await wallet.signSettlementRequest(request, nowSeconds)
@@ -418,13 +429,13 @@ function required(value: unknown, field: string): string {
   return value.trim();
 }
 function bytes32(value: unknown, field: string): string {
-  const result = String(value || "").toLowerCase();
+  const result = typeof value === "string" ? value.toLowerCase() : "";
   if (!/^0x[0-9a-f]{64}$/.test(result))
     throw new WalletError("INVALID_FIELDS", `${field} must be bytes32`);
   return result;
 }
 function uint(value: unknown, field: string): string {
-  const result = String(value ?? "");
+  const result = typeof value === "string" ? value : "";
   if (!/^[1-9][0-9]*$/.test(result))
     throw new WalletError("INVALID_FIELDS", `${field} must be a positive uint`);
   return result;
@@ -439,7 +450,7 @@ function normalizeAcceptedTerms(input: unknown) {
     Object.keys(value).sort().join(",") !==
       "baseAmountAtomic,serviceWindowSeconds,unitPriceAtomic"
   )
-    throw Error("Invalid accepted Quote terms");
+    throw new WalletError("INVALID_FIELDS", "Invalid accepted Quote terms");
   const seconds = value.serviceWindowSeconds;
   if (
     typeof seconds !== "number" ||
@@ -447,13 +458,13 @@ function normalizeAcceptedTerms(input: unknown) {
     seconds < 1 ||
     seconds > 31536000
   )
-    throw Error("Invalid accepted duration");
+    throw new WalletError("INVALID_FIELDS", "Invalid accepted duration");
   for (const k of ["baseAmountAtomic", "unitPriceAtomic"])
     if (
       typeof value[k] !== "string" ||
       !/^(0|[1-9][0-9]*)$/.test(value[k] as string)
     )
-      throw Error("Invalid accepted price");
+      throw new WalletError("INVALID_FIELDS", "Invalid accepted price");
   return {
     baseAmountAtomic: value.baseAmountAtomic as string,
     unitPriceAtomic: value.unitPriceAtomic as string,

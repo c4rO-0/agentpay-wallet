@@ -31,7 +31,7 @@ they are not a full deployed-platform or real-network acceptance test.
 ## Read the code in this order
 
 1. [Architecture](architecture.md): modules, data files and trust boundaries.
-2. `src/ipc.ts`: who may call which methods; `src/cli.ts`: the standalone entry.
+2. `src/service-owner.ts` and `src/ipc.ts`: service ownership and who may call which methods; `src/cli.ts`: the standalone entry.
 3. `src/wallet.ts`: follow `signAgentPayCommitment` into `commitment.ts` and then
    `keystore.ts`; note checks repeated after asynchronous work.
 4. Follow `readSettlementOrder` through `settlement-http.ts`,
@@ -49,7 +49,7 @@ and focused execution.
 
 | Change | Tests to read/run |
 | --- | --- |
-| Lock/unlock, key lifecycle, IPC roles, structured signatures | `lifecycle.test.ts`, `service-ready-ipc.test.ts` |
+| Lock/unlock, key lifecycle, IPC roles, structured signatures | `lifecycle.test.ts`, `service-boundaries.test.ts`, `service-ready-ipc.test.ts` |
 | Original key/Policy restore | `policy-restore.test.ts` |
 | Renewal and migration/restart | `policy-renewal.test.ts`, `policy-migration.test.ts` |
 | Original-Policy reads and request selectors | `historical-order-read.test.ts`, `settlement-request.test.ts` |
@@ -83,8 +83,9 @@ review. Use [contribution guidance](reference/CONTRIBUTING.md) for review expect
 Use the [public package entries](reference/public-package.md) for integration.
 `dist/src` is source-development build output, not a supported package import path.
 The IPC client preserves the existing capability checks; trusted local administration
-runs with the caller's filesystem permissions. User package adoption and independent
-running-version checks remain [planned](plans/user-wallet-distribution.md).
+runs with the caller's filesystem permissions. User consumes the published package and checks installed/running versions
+separately. The [distribution plan](plans/user-wallet-distribution.md) explains the
+repository boundary; current release evidence is in [progress](../progress.md).
 
 Private platform scripts and records are deliberately absent. Public contributors
 must not need private server source to build or test Wallet. Never place real keys,

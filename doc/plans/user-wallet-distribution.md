@@ -1,5 +1,11 @@
 # Independent User and Wallet distribution
 
+Historical implementation plan, approved 2026-11-07. npm distribution and public
+entries are now implemented. Use [usage](../usage.md), [public interfaces](../reference/public-package.md)
+and [current TODO](../TODO.md) for present behavior and remaining evidence.
+The original steps below preserve design rationale; their authorization and pending
+labels are historical, not current instructions.
+
 Updated 2026-11-07. The approved primary distribution direction is npm for Protocol,
 Wallet and User. This replaces the 2026-11-06 combined-source-ZIP-first plan.
 Repositories, processes and releases remain separate; Node is still required.

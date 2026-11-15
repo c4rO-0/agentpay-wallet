@@ -11,6 +11,10 @@ import { assertPrivateFile, exists, removeIfPresent } from "./files.js";
 export class JsonKeystoreBackend {
   readonly path: string;
   #wallet: Wallet | null = null;
+  // Decryption yields to other commands. Only the latest uncancelled attempt may
+  // install a signer; lock/destruction invalidate attempts already in flight.
+  #unlockGeneration = 0;
+  #destroying = false;
 
   constructor(path: string) {
     this.path = path;
@@ -57,24 +61,42 @@ export class JsonKeystoreBackend {
     password: string,
   ): Promise<{ address: string; decryptionMs: number; rssDeltaBytes: number }> {
     assertPassword(password);
-    const json = await this.#readKeystore();
+    if (this.#destroying)
+      throw new WalletError(
+        "KEY_BUSY",
+        "Key deletion is in progress; check Wallet status.",
+      );
+    const generation = ++this.#unlockGeneration;
     const started = performance.now();
     const rssBefore = process.memoryUsage().rss;
     try {
+      const json = await this.#readKeystore();
       const wallet = await Wallet.fromEncryptedJson(json, password);
+      if (generation !== this.#unlockGeneration || this.#destroying)
+        throw new WalletError(
+          "UNLOCK_CANCELLED",
+          "Unlock was cancelled by a later Wallet operation. Unlock again only when ready.",
+        );
       this.#wallet = new Wallet(wallet.privateKey);
       return {
         address: this.#wallet.address,
         decryptionMs: Math.round(performance.now() - started),
         rssDeltaBytes: Math.max(0, process.memoryUsage().rss - rssBefore),
       };
-    } catch {
+    } catch (error) {
+      if (generation !== this.#unlockGeneration)
+        throw new WalletError(
+          "UNLOCK_CANCELLED",
+          "Unlock was cancelled by a later Wallet operation. Unlock again only when ready.",
+        );
+      if (error instanceof WalletError) throw error;
       throw new WalletError("UNLOCK_FAILED", "keystore unlock failed");
     }
   }
 
   // Release the decrypted object. JavaScript cannot promise physical memory erasure.
   lock(): void {
+    this.#unlockGeneration++;
     this.#wallet = null;
   }
 
@@ -89,9 +111,15 @@ export class JsonKeystoreBackend {
 
   async destroy(): Promise<string> {
     const address = await this.address();
+    this.#destroying = true;
     this.lock();
-    await removeIfPresent(this.path);
-    return address;
+    try {
+      await removeIfPresent(this.path);
+      return address;
+    } finally {
+      this.lock();
+      this.#destroying = false;
+    }
   }
 
   async #readKeystore(): Promise<string> {

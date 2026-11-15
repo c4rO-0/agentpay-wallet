@@ -61,6 +61,11 @@ own replay boundaries; this repository does not contain their implementation.
 
 ## Local lifecycle and persistence
 
+The IPC service acquires its data-directory descriptor lock before opening mutable
+state. It stops accepting requests, drains dispatched operations and locks the key
+before releasing ownership. Lock and destruction invalidate earlier pending unlocks.
+Direct in-process library users still own their lifecycle coordination.
+
 Every opened Wallet starts locked. `status()` reports local state, not current chain
 readiness. An unlocked Wallet with a binding may sign only after operation-specific
 checks. An absent binding cannot sign payments. An administrative transition blocks
@@ -71,6 +76,7 @@ new identity.
 | --- | --- |
 | `session.keystore.json` | Encrypted Session Key; password required after restart |
 | `agent.token`, `admin.token` | Separate local application capabilities |
+| `service-owner.lock` | Persistent OS-lock file; never delete while a service can be running |
 | `wallet.sock` | Local Unix socket; no Wallet HTTP/TCP listener |
 | `policy.json` | Current public Policy binding, stored privately |
 | `policy-migration.json`, `policy-renewal.json` | Pending/completed transition journals |

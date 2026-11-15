@@ -1,0 +1,115 @@
+# Wallet historical task ledger — consolidated 2026-11-15
+
+Original task states are retained below. Unchecked entries are not silently cancelled
+or accepted; the [current TODO](../TODO.md) groups their remaining scope. Historical
+publication and implementation checkpoints do not authorize repeating operations.
+
+# Wallet TODO
+
+## Mainnet static-review corrections
+
+- [x] Complete first static pass; improve source flow comments and current documentation.
+- [x] W1: ensure later lock/destruction cancels pending unlock completion.
+- [x] W2: exclusive service ownership per data directory and owner-only socket cleanup.
+- [x] W3: contain dispatch/audit/socket failures and preserve actionable error semantics.
+- [x] W4: verify Registry RPC chain identity and bound its network wait.
+- [x] In the same bounded pass: IPC framing/client limits, safe directory inspection, strict input types and reviewed validation errors.
+- [x] Regressions for actual failures and focused correction review before Wallet closeout.
+
+See [review record](../records/mainnet-static-review-2026-11-15.md). Source correction is complete; this is not a release or live financial acceptance.
+
+- [ ] Publish the reviewed corrections when authorized, then update User’s pinned Wallet.
+
+## Prior work
+
+- [x] Align Wallet nickname validation and actionable rejection handling; focused regression checks passed.
+- [x] Publish nickname fixes and independently verify npm archive integrity.
+- [ ] Verify participant naming after the separate Market deployment.
+
+- [x] Classify read-only Policy RPC transport failures safely and verify through Wallet IPC; preserve historical authorization boundaries.
+- [x] Publish RPC guidance as Wallet 0.3.4; registry integrity verified before User pins it.
+
+- [x] Preserve maintenance error guidance and original request identity; controlled HTTP/IPC verification (2026-11-10).
+- [x] Publish maintenance guidance as Wallet 0.3.3 through tag-triggered OIDC; registry identity/integrity verified (2026-11-10).
+
+## Tag-triggered publication
+
+- [x] Use matching `vX.Y.Z` tags for npm publication; retain verification gates.
+- [x] Owner confirmed release tags allowed in the GitHub `npm-publish` environment.
+- [x] First tag-triggered publication and integrity verified with 0.3.3; see progress.
+
+## Wallet 0.3.2 publication
+
+- [x] Review package entries, running-version report, publishing workflow and current guides.
+- [x] Remove obsolete source-only and integration-pending instructions.
+- [x] Verify the 0.3.2 standalone archive and all 30 current behavioral checks.
+- [x] Wallet 0.3.2 OIDC run 42490583169 succeeded; public integrity/provenance verified.
+- [x] User 0.3.2 pins Wallet 0.3.2; suite/standalone package passed and User published.
+
+## Software reporting release — 2026-11-07
+
+- [x] Add process-start read-only software metadata, preserve Policy version semantics.
+- [x] Verify lifecycle and installed-package IPC reporting.
+- [x] Wallet 0.3.1 OIDC release and User 0.3.1 exact dependency adoption verified.
+
+## npm client distribution — 2026-11-07
+
+- [x] Record npm-first plan; combined source ZIP is optional, not the primary installer.
+- [x] Step 1: commit verified User/Wallet Protocol dependency migration baseline.
+- [x] Step 2: prepare Wallet public entry points, compiled npm artifact and standalone acceptance (29 behavioral tests plus installed-package CLI/IPC lifecycle).
+- [x] Review step 2: guard normal packing against missing/stale builds, correct public-interface docs and verify a standalone TypeScript consumer.
+- [x] Step 3: User 0.3.1 consumes Wallet 0.3.1 through npm and exposes `agentpay`.
+- [x] Step 4 implementation: installed/running checks, upgrade recovery and explicit uninstall modes.
+- [ ] Step 4 acceptance: participant published-version upgrade and interruption recovery.
+- [ ] Step 5: publish Wallet then User via OIDC; verify registry installs and update Market guides.
+  - [x] Wallet 0.3.0 first Token publication; registry integrity/latest and fresh public install/CLI/IPC verified.
+  - [x] Validate Wallet/User Trusted Publishers through the 0.3.1 OIDC releases. Market guide updates remain pending.
+- [ ] Step 6: participant setup/upgrade/restart/uninstall and official Anvil paid acceptance.
+
+
+## Public Protocol npm dependency
+
+- [x] Pin npm core 0.14.3; update imports, fixture resolution and lockfile.
+- [x] Verify independent install/build and all 29 behavioral tests; unchanged Protocol runtime bytes.
+- [x] Retire vendored archive and obsolete archive-manifest test; review current guides.
+- [x] Coordinate User dependency/pair-check migration; isolated installer preparation and User suite passed.
+- [x] Commit/push the published User/Wallet 0.3.1 pair.
+
+
+## Public-source preparation
+
+- [x] Review current tracked source and archive contents for sensitive material.
+- [x] Remove private integration scripts/records and all old Protocol archives from the public tree.
+- [x] Rebuild the required types package from reviewed public Protocol; update manifest and lock integrity.
+- [x] Correct standalone guides, missing secret ignores, security contact and stale test expectations.
+- [x] Independent frozen install/build and all 31 local tests passed with the new public-source archive.
+- [x] Polish contributor reading paths, source navigation, IPC reference and security-boundary comments; reverify build/tests and local links.
+- [x] Organize test readability and coverage navigation; preserve distinct boundary coverage and rerun all 31 tests.
+- [x] Review each test suite against behavior-first principles; consolidate duplicate rules, remove out-of-scope Protocol checks and improve real IPC coverage.
+- [x] Rebuild and rerun the final combined revision independently: all 30 tests passed, with no failures or skips.
+- [x] Obtain owner approval for a single-commit history baseline and removal of old release tags.
+- [x] Owner enabled public source; anonymous refs show only main `fb70187`, with no old tags.
+- [ ] Verify a complete anonymous fresh clone and source ZIP installation.
+- [ ] Establish public CI for the independent behavioral suite; no private platform dependencies.
+
+## Independent distribution
+
+- [x] Record [approved distribution direction](../plans/user-wallet-distribution.md).
+- [x] Define public client/IPC exports and installed/running identity checks.
+- [x] Integrate exact reviewed dependency checks and mismatch/recovery behavior.
+- [ ] Later compatible-range/unequal-version support requires a separately verified matrix.
+- [x] Prepare and independently test standalone Wallet npm artifact; 0.3.1 is published.
+
+## Remaining acceptance and release gates
+
+- [ ] Broaden controlled installation, original-key restore, Policy renewal/revocation,
+  mixed-version recovery and historical scope isolation acceptance.
+- [ ] Verify supported external-owner/multisig/headless scope and same-code network deployment.
+- [ ] Resolve live revocation/readiness UX and independent on-chain versus local-snapshot guarantees.
+- [ ] Verify real interruption at renewal/migration write boundaries; prepared journal fixtures are regression coverage, not crash acceptance.
+- [ ] Verify financial race/recovery cases with owning platform components and exact reconciliation.
+- [ ] Independent security review, release provenance and supported-version policy before real funds.
+- [ ] Keep macOS startup and graphical unlock deferred until a testable scope is agreed.
+
+Private chronological tasks were preserved outside this public repository during
+cleanup. Their removal from publication is not cancellation or acceptance.

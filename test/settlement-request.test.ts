@@ -5,6 +5,8 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { createServer } from "node:http";
+import { assertRegistryQualification } from "../src/commitment.js";
+import { normalizeMarketConnection } from "../src/market-connection.js";
 import { buildSettlementRequest } from "../src/settlement-request.js";
 import {
   callSettlementWalletApi,
@@ -365,4 +367,99 @@ test("preparation refuses an unexpected original Policy before signing or HTTP",
     { code: "RECOVERY_SCOPE_INVALID" },
   );
   assert.equal(signed, false);
+});
+
+test("Registry inspection rejects a wrong chain before qualification and bounds a silent RPC", async () => {
+  let silent = false,
+    qualifications = 0;
+  const server = createServer((request, response) => {
+    let body = "";
+    request.on("data", (chunk) => {
+      body += chunk;
+    });
+    request.on("end", () => {
+      if (silent) return;
+      const call = JSON.parse(body);
+      if (call.method === "eth_call") qualifications++;
+      response.setHeader("content-type", "application/json");
+      response.end(
+        JSON.stringify({
+          jsonrpc: "2.0",
+          id: call.id,
+          result:
+            call.method === "eth_chainId" ? "0x1" : "0x" + "0".repeat(63) + "1",
+        }),
+      );
+    });
+  });
+  await new Promise<void>((resolve) => server.listen(0, "127.0.0.1", resolve));
+  try {
+    const address = server.address();
+    if (!address || typeof address === "string") throw Error("No endpoint");
+    const bound = {
+      ...policy,
+      registryRpcUrl: `http://127.0.0.1:${address.port}`,
+    };
+    const request = {
+      skillId: "0x" + "11".repeat(32),
+      profileHash: "0x" + "22".repeat(32),
+      seller: policy.safe,
+    };
+    await assert.rejects(assertRegistryQualification(bound, request), {
+      code: "REGISTRY_CHAIN_MISMATCH",
+    });
+    assert.equal(qualifications, 0);
+    silent = true;
+    await assert.rejects(assertRegistryQualification(bound, request), {
+      code: "REGISTRY_UNAVAILABLE",
+    });
+  } finally {
+    server.closeAllConnections();
+    await new Promise<void>((resolve) => server.close(() => resolve()));
+  }
+});
+
+test("malformed public fields give reviewed errors instead of coercion or internal errors", () => {
+  for (const input of [{ orderId: ["0x" + "11".repeat(32)] }, { orderId: 42 }])
+    assert.throws(
+      () => normalizeWalletActionPayload("delivery.confirm", input),
+      { code: "INVALID_FIELDS" },
+    );
+  assert.throws(() => normalizeWalletActionPayload("order.read", {}), {
+    code: "INVALID_FIELDS",
+  });
+  const challenge = {
+    marketOrigin: "not a URL",
+    accountId: "fixture",
+    challengeId: "a".repeat(64),
+    nonce: "b".repeat(64),
+    label: "Local",
+    expiresAtMs: 1,
+  };
+  assert.throws(() => normalizeMarketConnection(challenge), {
+    code: "INVALID_FIELDS",
+  });
+  const prepare = {
+    orderRequestId: "0x" + "01".repeat(32),
+    skillId: "0x" + "02".repeat(32),
+    profileHash: "0x" + "03".repeat(32),
+    requestHash: "0x" + "04".repeat(32),
+    requestedMaxUsageUnits: "1",
+  };
+  assert.throws(
+    () =>
+      normalizeWalletActionPayload("order.prepare", {
+        ...prepare,
+        requestedMaxUsageUnits: ["1"],
+      }),
+    { code: "INVALID_FIELDS" },
+  );
+  assert.throws(
+    () =>
+      normalizeWalletActionPayload("order.prepare", {
+        ...prepare,
+        acceptedTerms: {},
+      }),
+    { code: "INVALID_FIELDS" },
+  );
 });

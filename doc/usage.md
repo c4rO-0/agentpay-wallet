@@ -32,7 +32,13 @@ Do not copy it into the package folder or publish it with your application.
 
 `serve` stays in the foreground. Ctrl+C stops that process; starting it again loads
 the same data and starts locked. npm installation does not configure automatic
-startup. Only one Wallet process should use a given data directory.
+startup. The service enforces one owner per data directory through an OS file lock.
+Keep `service-owner.lock` in place, even after a crash; the OS releases the lock
+when the process exits. A competing start reports `WALLET_ALREADY_RUNNING`.
+
+The npm package installs `fs-native-extensions` for file locking. Linux is verified
+by the current package tests; macOS service acceptance remains deferred. If native
+locking cannot load, reinstall the matching package rather than deleting lock files.
 
 Use `lock` to stop new local signatures without stopping the process. This does
 not revoke signed requests or on-chain authorization. `status` reports saved local
@@ -110,8 +116,8 @@ Initialization/unlock prompt for the secret in the terminal. Startup stays locke
 ## Scoped Order support — source 2026-10-25
 
 User repository commands expose existing-Order status, original-result retrieval
-and case access through Wallet's bounded local IPC. The Wallet creates a short,
-one-Order case code after checking the configured Safe/delegate. It is not a
+and case access through Wallet's bounded local IPC. Wallet signs a bounded request under the configured Safe/Policy; Settlement
+checks Order access and returns a short, one-Order case code. It is not a
 Session Key or spending permission. Ordinary Policy expiry permits the defined
 short existing-Order support requests; new spending remains prohibited. Revoked
 or inactive authorization is not silently renewed. Keep the Wallet unlocked for
