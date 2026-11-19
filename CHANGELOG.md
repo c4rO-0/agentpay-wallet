@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.7
+
+- Connection errors now direct users to check their configured blockchain RPC and retry the original request.
+
 ## 0.3.6
 
 - Serialize local Wallet lifecycle operations and preserve interrupted-operation records.

@@ -224,7 +224,7 @@ export async function withMigrationRpc<T>(
       if (!item || typeof item !== "object") continue;
       const e = item as {code?: unknown; cause?: unknown; error?: unknown; info?: unknown};
       if (!(error instanceof WalletError) && typeof e.code === "string" && transport.has(e.code))
-        throw new WalletError("CHAIN_RPC_UNAVAILABLE", "Cannot connect to the configured blockchain RPC. Restore the network connection; if using a local SSH tunnel, keep it running, then retry the same request.");
+        throw new WalletError("CHAIN_RPC_UNAVAILABLE", "Wallet could not reach the configured blockchain RPC. Check the connection, then retry the same request.");
       pending.push(e.cause, e.error, e.info);
     }
     throw error;
