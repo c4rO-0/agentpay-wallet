@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.6
+
+- Serialize local Wallet lifecycle operations and preserve interrupted-operation records.
+- Use the Order case API for disputes. The former direct dispute-signing operation is retired.
+- Pin the public Protocol package to 0.14.4.
+
 ## 0.3.5 — 2026-11-13
 
 - Validate Market nicknames before signing, including normalized length and unsafe formatting characters.
