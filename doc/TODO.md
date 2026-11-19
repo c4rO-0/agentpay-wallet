@@ -5,7 +5,7 @@
 ## Dispute API consolidation
 
 - [x] Verify retired action rejection and current request behavior (10 checks and compilation passed).
-- [ ] Include the removal in the next authorized package release and coordinate with Settlement.
+- [x] Release the reviewed removal in Wallet 0.3.6.
 
 
 ## Current review and release
@@ -15,9 +15,9 @@
 - [x] Run behavioral regressions and independent package installation; complete focused rereview.
 - [x] Consolidate documentation, preserve historical task states and refresh contributor navigation.
 - [x] Complete R1–R10 coverage and prepare the reviewed source/documentation closeout commit.
-- [ ] When authorized, publish the corrections with matching manifest/tag and verify npm integrity.
-- [ ] Coordinate User’s exact Wallet dependency update and relevant integration checks.
-- [ ] After Protocol publishes its reviewed corrections, evaluate and verify the dependency upgrade.
+- [x] Publish 0.3.6 with the matching Tag and verify the npm package.
+- [x] Verify the exact Wallet 0.3.6 dependency in the User 0.3.24 installation candidate.
+- [x] Adopt verified Protocol 0.14.4.
 
 See [review findings and evidence](records/mainnet-static-review-2026-11-15.md).
 Source verification does not establish live financial acceptance or publication.

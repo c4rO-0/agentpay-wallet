@@ -1,8 +1,8 @@
 # AgentPay Wallet progress
 
-## Protocol dependency — 2026-11-19
+## Wallet 0.3.6 — published 2026-11-19
 
-Wallet now pins the published Protocol 0.14.4. An independent installation compiled and passed all 10 Settlement request checks. Publishing the next Wallet package and updating the paired User dependency are pending.
+Tag `v0.3.6` points to `0a1abbb`. The registry archive matches the independently installed and tested archive byte for byte. All 37 Wallet checks passed on Linux, including service ownership and Settlement requests. This release pins Protocol 0.14.4.
 
 ## Compatibility supplement — 2026-11-19
 
@@ -25,22 +25,7 @@ recovery, unlock cancellation and audit failures. Independent tarball installati
 public declarations, CLI and real IPC lifecycle also passed. Controlled RPC fixtures
 verify wrong-chain rejection and bounded waits; no live payment was performed.
 The new native file-lock dependency was verified on this Linux host only.
-R1–R10 coverage is complete and ready for the review closeout commit; no release
-has occurred. Published Wallet remains 0.3.5.
-Protocol dependency remains 0.14.3 pending its separately authorized release.
-
-## Published baseline
-
-Wallet 0.3.5 is the latest release recorded here. Tag `v0.3.5` identifies
-`73d5d302c707213c9e9e84566a4a1ad44727f6d3`; npm archive integrity was verified.
-It includes nickname validation, RPC error guidance and maintenance guidance.
-The current corrections above are not in that published version.
-
-## Next steps
-
-1. Commit this completed review; continue with User without a new broad rehearsal.
-2. When authorized, publish an aligned version/tag and verify npm integrity.
-3. Coordinate User’s exact Wallet dependency update and relevant integration checks.
+Wallet 0.3.5 was the participant baseline before these corrections. Its tag is `v0.3.5` at `73d5d30`.
 
 The [TODO](doc/TODO.md) tracks remaining work and evidence limits.
 [Earlier checkpoints](doc/archive/progress-through-2026-11-13.md) preserve release
