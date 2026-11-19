@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "ethers": "6.17.0",
-    "@c4roa0/agentpay-protocol": "0.14.3",
+    "@c4roa0/agentpay-protocol": "0.14.4",
     "fs-native-extensions": "1.5.3"
   },
   "devDependencies": {

@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@c4roa0/agentpay-protocol':
-        specifier: 0.14.3
-        version: 0.14.3(typescript@7.0.2)
+        specifier: 0.14.4
+        version: 0.14.4(typescript@7.0.2)
       ethers:
         specifier: 6.17.0
         version: 6.17.0
@@ -30,8 +30,8 @@ packages:
   '@adraffy/ens-normalize@1.11.1':
     resolution: {integrity: sha512-nhCBV3quEgesuf7c7KYfperqSS14T8bYuvJ8PcLJp6znkZpFc0AuW4qBtr8eKVyPPe/8RSr7sglCWPU5eaxwKQ==}
 
-  '@c4roa0/agentpay-protocol@0.14.3':
-    resolution: {integrity: sha512-ZfavgIW9MUWusWgOYwzZa8tAJpQj78IAj9alpBrKyWNmMjtYpC3EzJYhhZ4wGd4daMSyqudJD1PR1JTy7Z06Tw==}
+  '@c4roa0/agentpay-protocol@0.14.4':
+    resolution: {integrity: sha512-vFCeEjnJnlkqOH+OMQZE8Y9lVMAi//rUPHtTdi+cmAeHSjJr9jeLzUyoesBMi0ysOqgrYZ8vyCvoO/E//DsTSA==}
 
   '@noble/ciphers@1.3.0':
     resolution: {integrity: sha512-2I0gnIVPtfnMw9ee9h1dJG7tp81+8Ob3OJb3Mv37rx5L40/b0i7djjCVvGOVqc9AEIQyvyu1i6ypKdFw8R8gQw==}
@@ -282,7 +282,7 @@ snapshots:
 
   '@adraffy/ens-normalize@1.11.1': {}
 
-  '@c4roa0/agentpay-protocol@0.14.3(typescript@7.0.2)':
+  '@c4roa0/agentpay-protocol@0.14.4(typescript@7.0.2)':
     dependencies:
       viem: 2.55.11(typescript@7.0.2)
     transitivePeerDependencies:

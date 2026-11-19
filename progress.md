@@ -1,5 +1,9 @@
 # AgentPay Wallet progress
 
+## Protocol dependency — 2026-11-19
+
+Wallet now pins the published Protocol 0.14.4. An independent installation compiled and passed all 10 Settlement request checks. Publishing the next Wallet package and updating the paired User dependency are pending.
+
 ## Compatibility supplement — 2026-11-19
 
 Completed R11 consumer/state compatibility review. [Dispositions and evidence](doc/records/compatibility-review-2026-11-19.md). Retained historical recovery and published interfaces have explicit exit conditions; no release or deployment.
