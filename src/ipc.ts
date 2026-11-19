@@ -37,7 +37,6 @@ const AGENT_METHODS = new Set([
   "pollSettlementNotices",
   "acknowledgeSettlementNotice",
   "confirmSettlementDelivery",
-  "openSettlementDispute",
   "createSettlementCaseAccess",
   "readSettlementCase",
   "requestSettlementResult",
@@ -417,16 +416,6 @@ async function invoke(
         requiredString(params.settlementUrl, "settlementUrl"),
         "delivery.confirm",
         { orderId: requiredString(params.orderId, "orderId") },
-      );
-    case "openSettlementDispute":
-      return callSettlementWalletApi(
-        wallet,
-        requiredString(params.settlementUrl, "settlementUrl"),
-        "dispute.open",
-        {
-          orderId: requiredString(params.orderId, "orderId"),
-          reasonHash: requiredString(params.reasonHash, "reasonHash"),
-        },
       );
     case "createSettlementCaseAccess":
       return callSettlementWalletApi(

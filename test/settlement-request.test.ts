@@ -463,3 +463,10 @@ test("malformed public fields give reviewed errors instead of coercion or intern
     { code: "INVALID_FIELDS" },
   );
 });
+
+test("retired direct dispute action cannot obtain a Wallet signature", () => {
+  assert.throws(() => buildSettlementRequest(policy, {
+    action: "dispute.open", payloadHash: `0x${"88".repeat(32)}`,
+    requestNonce: `0x${"99".repeat(32)}`, validBefore: 2000,
+  }, 1000), /unsupported Settlement request action/);
+});

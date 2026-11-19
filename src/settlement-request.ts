@@ -10,7 +10,6 @@ export const SETTLEMENT_REQUEST_ACTIONS = [
   "notices.list",
   "notices.acknowledge",
   "delivery.confirm",
-  "dispute.open",
   "dispute.read",
   "dispute.access",
   "dispute.result",
@@ -82,7 +81,6 @@ export function buildSettlementRequest(
       "notices.list",
       "notices.acknowledge",
       "delivery.confirm",
-      "dispute.open",
       "order.cancel",
       "service.ready",
     ].includes(String(value.action)) &&

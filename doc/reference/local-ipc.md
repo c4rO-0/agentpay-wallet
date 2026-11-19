@@ -81,3 +81,11 @@ Protocol reporting reads the installed package resolved by that process, rather 
 copying its dependency declaration. User preflight checks both User's and Wallet's
 resolved copies against the reviewed exact version, including nested dependencies.
 Package version checks establish compatibility metadata, not file-integrity attestation.
+
+## Order dispute access
+
+Use `createSettlementCaseAccess` for Order-scoped case access, then submit the
+reason, operation ID and expected revision through the case API. The pre-launch
+`openSettlementDispute` IPC method and `dispute.open` signing action are removed.
+A reason hash alone cannot open or decide a case. Existing case reads and result
+retrieval are unchanged.

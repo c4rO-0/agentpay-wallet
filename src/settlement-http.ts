@@ -87,11 +87,6 @@ export function normalizeWalletActionPayload(
     };
   if (action === "delivery.confirm")
     return { orderId: bytes32(value.orderId, "orderId") };
-  if (action === "dispute.open")
-    return {
-      orderId: bytes32(value.orderId, "orderId"),
-      reasonHash: bytes32(value.reasonHash, "reasonHash"),
-    };
   if (action === "service.ready")
     return {
       orderId: bytes32(value.orderId, "orderId"),

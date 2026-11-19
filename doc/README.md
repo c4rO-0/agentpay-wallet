@@ -1,5 +1,7 @@
 # Wallet documentation
 
+- Completed R11 consumer/state compatibility review. [Dispositions and evidence](records/compatibility-review-2026-11-19.md). Retained historical recovery and published interfaces have explicit exit conditions; no release or deployment.
+
 Choose a path for your task. These guides work with a standalone Wallet checkout;
 no private platform repository is required.
 

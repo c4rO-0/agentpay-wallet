@@ -1,5 +1,14 @@
 # AgentPay Wallet progress
 
+## Compatibility supplement — 2026-11-19
+
+Completed R11 consumer/state compatibility review. [Dispositions and evidence](doc/records/compatibility-review-2026-11-19.md). Retained historical recovery and published interfaces have explicit exit conditions; no release or deployment.
+
+## Dispute API consolidation — 2026-11-16
+
+Removed the pre-launch direct dispute IPC/signing action. Order-scoped case access, case reads and result requests remain; filing uses the case API. Compilation and all 10 Settlement-request checks passed, including retired-action rejection. Source only; no package publication.
+
+
 ## Mainnet static review — source corrections complete, 2026-11-15
 
 W1–W4 and the bounded transport/filesystem/input-error follow-ups are repaired.
